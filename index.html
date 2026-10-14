@@ -1,0 +1,2353 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e9ecf0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c131b" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Diário de treino de ciclismo por potência: plano contínuo, registo de treinos, FTP e curva de potência.">
+<!-- no iPhone, "Adicionar ao ecrã principal" usa isto: abre sem a barra do Safari e com ícone próprio -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Potência">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAACRklEQVR42u3a0bFFQBRFQaP8E4VYiFgsIwoZkAE/w+B0h6DW2+9QN+Wp3xv4idYjQNAgaBA0CBpBg6BB0CBoEDSCBkGDoEHQIGgEDYIGQYOgQdAIGgQNggZBg6ARNBWNy+YhCFrMggZBc/c6r/PgYQgaQeN2FjRiFjQI2joj6I/zhUPQ1lnQiFnQIGiss6CDxuyFUNAgaKeGoEHQWGdBB43ZC6GgQdBODUGDoLHOghYzgm78BlrQWGdBg6CtM4IWM4L2QihorLOgEbOgQdDWGUEjaOqssy8cgnZqIGgEjXUWNAg66Dp7IRS0UwNBI2iss6BB0EHX2QuhoJ0aCBpBY50FLWYEDYL+/jr7wiFoOJXy1O8eQ4zbOcJ/BAstZkGDoK2zdRY0Yha0dXZy4NQQNGIWtHVG0FhnQVtnQYvZOgsaMQvaOiNoMVtnQTs1BG2dETTWWdDWWcxldRbNH5CFxjoL2sunmAUNgnZqCBoxCxpfNwSNdRa0mBE0guZt97N1FjSCxu0saMQsaPczgrbOCFrMggZBU+p+ts6CdmogaASNdRa0+1nMggZBOzUQtJgFjd9vCBrrLGgQtHUWtEfw3P0sZkGDoJ0agkbMgnY/+/4saOuMoMWMoBE0pe5n6yxopwaCBkFbZ0FzfT+LWdAgaKcGghazoPH7DUFbZwQNgrbOCLrU/SxmQYOgnRoIWsyCxvdnQVtnBC1mBA2CRtAgaBA0CBoEjaBB0CBoEDQIGkGDoEHQIGgQNIIGQYOgQdAgaAQNgoYnHRuNuvrKn0zKAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAACRklEQVR42u3a0bFFQBRFQaP8E4VYiFgsIwoZkAE/w+B0h6DW2+9QN+Wp3xv4idYjQNAgaBA0CBpBg6BB0CBoEDSCBkGDoEHQIGgEDYIGQYOgQdAIGgQNggZBg6ARNBWNy+YhCFrMggZBc/c6r/PgYQgaQeN2FjRiFjQI2joj6I/zhUPQ1lnQiFnQIGiss6CDxuyFUNAgaKeGoEHQWGdBB43ZC6GgQdBODUGDoLHOghYzgm78BlrQWGdBg6CtM4IWM4L2QihorLOgEbOgQdDWGUEjaOqssy8cgnZqIGgEjXUWNAg66Dp7IRS0UwNBI2iss6BB0EHX2QuhoJ0aCBpBY50FLWYEDYL+/jr7wiFoOJXy1O8eQ4zbOcJ/BAstZkGDoK2zdRY0Yha0dXZy4NQQNGIWtHVG0FhnQVtnQYvZOgsaMQvaOiNoMVtnQTs1BG2dETTWWdDWWcxldRbNH5CFxjoL2sunmAUNgnZqCBoxCxpfNwSNdRa0mBE0guZt97N1FjSCxu0saMQsaPczgrbOCFrMggZBU+p+ts6CdmogaASNdRa0+1nMggZBOzUQtJgFjd9vCBrrLGgQtHUWtEfw3P0sZkGDoJ0agkbMgnY/+/4saOuMoMWMoBE0pe5n6yxopwaCBkFbZ0FzfT+LWdAgaKcGghazoPH7DUFbZwQNgrbOCLrU/SxmQYOgnRoIWsyCxvdnQVtnBC1mBA2CRtAgaBA0CBoEjaBB0CBoEDQIGkGDoEHQIGgQNIIGQYOgQdAgaAQNgoYnHRuNuvrKn0zKAAAAAElFTkSuQmCC">
+<title>Diário de Potência</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* Layout: painel de instrumentos — navegação inferior no telemóvel, lateral no PC;
+   cartão da sessão do dia em destaque, tiles de métricas, gráficos empilhados. */
+:root{
+  --bg:#e9ecf0; --surface:#ffffff; --surface-2:#f3f6f8; --line:#d2dae1; --line-soft:#e4eaef;
+  --ink:#111a24; --ink-2:#4a5a6b; --ink-3:#78889a;
+  --accent:#d9480f; --accent-soft:#fdeee6; --steel:#1f5f8b;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --good:#1a7f54; --warn:#8a5d00; --crit:#b42318;
+  --z1:#6b7a8c; --z2:#2a78d6; --z3:#1baf7a; --z4:#c98500; --z5:#eb6834; --z6:#e34948; --z7:#4a3aa7;
+  --grid:#e2e8ee; --shadow:0 1px 2px rgba(17,26,36,.06),0 8px 24px rgba(17,26,36,.05);
+  --disp:"Barlow Condensed","Barlow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c131b; --surface:#141d27; --surface-2:#1a2530; --line:#2a3744; --line-soft:#212d39;
+  --ink:#eef3f7; --ink-2:#a8b7c5; --ink-3:#798a9a;
+  --accent:#ff7a3d; --accent-soft:#2b1a11; --steel:#6fb3df;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#2fa06f; --warn:#d9a21a; --crit:#e66767;
+  --z1:#8697a8; --z2:#3987e5; --z3:#199e70; --z4:#d9a21a; --z5:#d95926; --z6:#e66767; --z7:#9085e9;
+  --grid:#24303c; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.28);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0c131b; --surface:#141d27; --surface-2:#1a2530; --line:#2a3744; --line-soft:#212d39;
+  --ink:#eef3f7; --ink-2:#a8b7c5; --ink-3:#798a9a;
+  --accent:#ff7a3d; --accent-soft:#2b1a11; --steel:#6fb3df;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#2fa06f; --warn:#d9a21a; --crit:#e66767;
+  --z1:#8697a8; --z2:#3987e5; --z3:#199e70; --z4:#d9a21a; --z5:#d95926; --z6:#e66767; --z7:#9085e9;
+  --grid:#24303c; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.28);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  min-height:100%;margin:0;overflow-x:hidden;overscroll-behavior-y:contain;
+  -webkit-tap-highlight-color:transparent}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:.005em;text-wrap:balance;margin:0}
+h1{font-size:1.65rem;line-height:1.1}
+h2{font-size:1.3rem;line-height:1.15}
+h3{font-size:1.06rem;line-height:1.2}
+p{margin:0}
+a{color:var(--steel)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:1fr;min-height:100%}
+.side{display:none}
+.main{min-width:0;padding:0 16px calc(104px + env(safe-area-inset-bottom,0px))}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  margin:0 -16px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0}
+.brand b{font-family:var(--disp);font-size:1.18rem;letter-spacing:.01em;white-space:nowrap}
+.brand span{font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.09em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .sp{flex:1}
+.iconbtn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  border-radius:11px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;font-size:1.1rem;flex:none}
+.iconbtn:hover{color:var(--ink);border-color:var(--ink-3)}
+.iconbtn:active{background:var(--surface-2)}
+.topbar .agora{font-family:var(--mono);font-size:.78rem;color:var(--ink-2);white-space:nowrap}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);
+  background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar button{appearance:none;background:none;border:0;cursor:pointer;color:var(--ink-3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-height:56px;padding:7px 2px;font:inherit;font-size:.72rem;font-weight:600;
+  border-top:2px solid transparent;margin-top:-1px}
+.tabbar button .ic{font-size:1.25rem;line-height:1}
+.tabbar button[aria-current="page"]{color:var(--accent);border-top-color:var(--accent)}
+.tabbar button:active{background:var(--surface-2)}
+
+/* ---------- blocks ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:14px;padding-block:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);font-weight:600}
+.muted{color:var(--ink-2)}
+.small{font-size:.86rem}
+.tiny{font-size:.78rem}
+.sep{height:1px;background:var(--line-soft);border:0;margin:12px 0}
+
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 12px;min-width:0}
+.tile .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600}
+.tile .v{font-family:var(--disp);font-size:1.75rem;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:3px}
+.tile .u{font-size:.78rem;color:var(--ink-3);font-family:var(--body);font-weight:500}
+.tile .n{font-size:.76rem;color:var(--ink-2);margin-top:2px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;
+  padding:2px 9px;font-size:.74rem;font-weight:600;color:var(--ink-2);background:var(--surface-2);white-space:nowrap}
+.pill.on{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,var(--line));color:var(--accent)}
+.pill .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line-soft);
+  border-radius:8px;padding:5px 9px;font-size:.8rem}
+.chip b{font-family:var(--mono);font-size:.84rem;font-variant-numeric:tabular-nums}
+.badge{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;
+  border-radius:5px;padding:2px 6px;background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-soft)}
+.badge.ex{background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,var(--line))}
+.badge.ok{background:color-mix(in srgb,var(--good) 14%,var(--surface));color:var(--good);border-color:color-mix(in srgb,var(--good) 35%,var(--line))}
+
+/* Alvos de toque: 46px de altura mínima nos botões normais, 40 nos pequenos —
+   abaixo disso falha-se o toque no telemóvel com o dedo. */
+button.btn,a.btn{appearance:none;font:inherit;font-weight:600;cursor:pointer;border-radius:10px;
+  padding:10px 16px;min-height:46px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button.btn:hover,a.btn:hover{border-color:var(--ink-3)}
+button.btn:active,a.btn:active{transform:scale(.98)}
+button.btn.pri,a.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button.btn.pri:hover{filter:brightness(1.06)}
+button.btn.ghost{background:transparent}
+button.btn.danger{color:var(--crit);border-color:color-mix(in srgb,var(--crit) 35%,var(--line))}
+button.btn:disabled{opacity:.5;cursor:not-allowed}
+button.btn.sm{padding:7px 12px;min-height:40px;font-size:.86rem;border-radius:9px}
+button.btn.wide{width:100%}
+button.btn.grande{min-height:54px;font-size:1.02rem;border-radius:12px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+label.f{display:flex;flex-direction:column;gap:5px;font-size:.78rem;font-weight:600;color:var(--ink-2);min-width:0}
+/* 16px é o mínimo: abaixo disso o Safari do iPhone dá zoom à página ao focar o campo */
+input,select,textarea{font-family:var(--body);font-size:16px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;min-width:0;min-height:46px;
+  appearance:none;-webkit-appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 17px) 50%,calc(100% - 12px) 50%;background-size:5px 5px,5px 5px;
+  background-repeat:no-repeat;padding-right:34px}
+input[type=number]{font-family:var(--mono)}
+input[type=date]{min-height:46px}
+textarea{resize:vertical;min-height:72px;line-height:1.45}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+
+/* ---------- sessão / plano ---------- */
+.sess{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.sess.hoje{border-color:color-mix(in srgb,var(--accent) 52%,var(--line));box-shadow:var(--shadow)}
+.sess .hd{display:flex;gap:10px;align-items:flex-start;padding:12px 13px}
+.sess .zb{width:4px;border-radius:4px;align-self:stretch;flex:none;background:var(--z2)}
+.sess .ti{font-family:var(--disp);font-size:1.07rem;line-height:1.15}
+.sess .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sess .bd{padding:0 13px 13px;display:flex;flex-direction:column;gap:10px}
+.sess .desc{font-size:.9rem;color:var(--ink-2)}
+.alvos{display:flex;flex-wrap:wrap;gap:6px}
+.wk{display:flex;align-items:center;gap:8px;margin:18px 0 8px}
+.wk .n{font-family:var(--disp);font-size:1.12rem}
+.wk .l{flex:1;height:1px;background:var(--line)}
+.done .ti{text-decoration:line-through;text-decoration-thickness:1px;color:var(--ink-3)}
+.sess .bd .row>button{flex:1 1 auto}
+
+/* cartão do treino que se segue: o número que vais usar na bicicleta, em grande */
+.hero{background:var(--surface);border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));
+  border-radius:16px;padding:15px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.hero .cab{display:flex;gap:10px;align-items:flex-start}
+.hero .zb{width:5px;border-radius:4px;align-self:stretch;flex:none}
+.hero .ti{font-family:var(--disp);font-size:1.42rem;line-height:1.08;margin-top:1px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.hero .desc{font-size:.92rem;color:var(--ink-2)}
+.hero .watts{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  background:var(--accent-soft);border-radius:12px;padding:11px 13px}
+.hero .watts .big{font-family:var(--disp);font-size:2.6rem;line-height:.92;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.hero .watts .un{font-family:var(--body);font-size:1rem;font-weight:600;color:var(--accent)}
+.hero .watts .lab{font-size:.82rem;color:var(--ink-2);flex:1 1 100%}
+.garmin{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
+  border:1px dashed var(--line);border-radius:11px;padding:9px 11px}
+.garmin .et{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600}
+.garmin code{font-family:var(--mono);font-size:.82rem;color:var(--ink);word-break:break-all;
+  background:var(--surface-2);border-radius:6px;padding:2px 6px}
+
+/* rolo ou fora: escolhes no dia, o plano só sugere */
+.escolha{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.onde{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.onde button{appearance:none;font:inherit;font-size:.84rem;font-weight:600;cursor:pointer;border:0;
+  background:none;color:var(--ink-3);padding:9px 16px;min-height:42px}
+.onde button.on{background:var(--ink);color:var(--bg)}
+.onde button:active{opacity:.75}
+
+/* prioridade da sessão dentro da semana */
+.prio{display:inline-flex;align-items:center;border:1px solid color-mix(in srgb,var(--c) 42%,var(--line));
+  background:color-mix(in srgb,var(--c) 12%,var(--surface));color:var(--c);
+  border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.sess.saltada{opacity:.62}
+.sess.saltada .ti{text-decoration:line-through;text-decoration-style:dotted;color:var(--ink-3)}
+.hero .acoes{display:grid;grid-template-columns:1fr;gap:9px}
+@media (min-width:520px){.hero .acoes{grid-template-columns:1fr 1fr}}
+
+/* histórico sem tabela larga: uma linha por treino, legível a 375 px */
+.hist{display:flex;flex-direction:column}
+.hist .it{display:flex;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.hist .it:last-child{border-bottom:0}
+.hist .q{flex:1;min-width:0}
+.hist .q .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist .q .s{font-size:.77rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.hist .v{font-family:var(--mono);font-size:1rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.hist .v em{display:block;font-size:.68rem;color:var(--ink-3);font-style:normal;font-family:var(--body);
+  text-transform:uppercase;letter-spacing:.07em}
+
+/* semanas do plano fechadas por omissão: a semana atual é a única aberta */
+details.sem{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+details.sem>summary{list-style:none;cursor:pointer;display:flex;gap:8px;align-items:center;
+  flex-wrap:nowrap;overflow:hidden;padding:12px 14px;min-height:56px}
+details.sem>summary::-webkit-details-marker{display:none}
+details.sem>summary:active{background:var(--surface-2)}
+details.sem>summary .nm{font-family:var(--disp);font-size:1.1rem;white-space:nowrap;flex:none}
+details.sem>summary .pill{overflow:hidden;text-overflow:ellipsis;min-width:0}
+details.sem>summary .ch{margin-left:auto;color:var(--ink-3);font-size:.9rem;flex:none}
+details.sem[open]>summary .ch{transform:rotate(180deg)}
+details.sem[open]>summary{border-bottom:1px solid var(--line-soft)}
+details.sem .conteudo{padding:11px;display:flex;flex-direction:column;gap:9px}
+details.sem.agora{border-color:color-mix(in srgb,var(--accent) 50%,var(--line));box-shadow:var(--shadow)}
+details.sem.agora>summary .nm{color:var(--accent)}
+
+/* editor de blocos: nome em cima, números em baixo — cabe num telemóvel */
+.bloco{border:1px solid var(--line-soft);border-radius:11px;padding:10px;background:var(--surface-2);
+  display:flex;flex-direction:column;gap:8px}
+.bloco>input[data-bl]{background:var(--surface)}
+.bloco .nums{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) auto;gap:7px;align-items:end}
+.bloco .nums .f{font-size:.7rem}
+.bloco .nums input{padding:9px 6px;text-align:center;font-size:16px}
+.bloco .nums button{min-width:40px}
+@media (max-width:430px){
+  .bloco .nums{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .bloco .nums button{grid-column:3;justify-self:end}
+}
+
+/* campos secundários do registo, escondidos até serem pedidos */
+details.mais{border:1px dashed var(--line);border-radius:11px;padding:0 12px}
+details.mais>summary{list-style:none;cursor:pointer;font-size:.88rem;font-weight:600;color:var(--ink-2);
+  padding:13px 0;min-height:46px;display:flex;align-items:center;gap:7px}
+details.mais>summary::-webkit-details-marker{display:none}
+details.mais>summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);font-size:1.1rem}
+details.mais[open]>summary::before{content:"−"}
+details.mais .conteudo{padding-bottom:13px}
+
+/* ---------- tabelas ---------- */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px}
+table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{text-align:right;padding:7px 9px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;
+  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:hover{background:var(--surface-2)}
+
+/* ---------- gráficos ---------- */
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figcaption{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+figcaption .t{font-family:var(--disp);font-size:1.06rem}
+figcaption .s{font-size:.8rem;color:var(--ink-3);flex:1;min-width:120px}
+.chartbox{position:relative}
+svg.chart{display:block;width:100%;height:auto;max-width:100%;overflow:visible;touch-action:pan-y}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--ink-2)}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.tt{position:absolute;pointer-events:none;z-index:5;background:var(--surface);border:1px solid var(--line);
+  border-radius:9px;padding:7px 9px;font-size:.8rem;box-shadow:var(--shadow);min-width:112px;opacity:0;transition:opacity .09s}
+.tt.on{opacity:1}
+.tt .d{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.tt .r{display:flex;justify-content:space-between;gap:12px}
+.tt .r b{font-family:var(--mono);font-variant-numeric:tabular-nums}
+details.tbl{border-top:1px solid var(--line-soft);padding-top:8px}
+details.tbl summary{cursor:pointer;font-size:.8rem;color:var(--ink-2);font-weight:600;list-style:none}
+details.tbl summary::-webkit-details-marker{display:none}
+details.tbl summary::before{content:"▸ ";color:var(--ink-3)}
+details.tbl[open] summary::before{content:"▾ "}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:20px 16px;text-align:center;color:var(--ink-2);
+  background:var(--surface-2);display:flex;flex-direction:column;gap:9px;align-items:center}
+.empty .big{font-family:var(--disp);font-size:1.08rem;color:var(--ink)}
+
+.zrow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+.zrow:last-child{border-bottom:0}
+.zrow .zn{display:flex;align-items:center;gap:8px;min-width:0}
+.zrow .zs{width:5px;height:30px;border-radius:3px;flex:none}
+.zrow .zw{font-family:var(--mono);font-size:.92rem;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:12px;padding:12px 13px;font-size:.88rem;
+  border:1px solid color-mix(in srgb,var(--warn) 34%,var(--line));background:color-mix(in srgb,var(--warn) 9%,var(--surface))}
+.banner.info{border-color:color-mix(in srgb,var(--steel) 34%,var(--line));background:color-mix(in srgb,var(--steel) 8%,var(--surface))}
+.banner .ic{font-size:1.05rem;line-height:1.3}
+.banner b{display:block;font-family:var(--disp);font-size:1rem;font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(14px);bottom:calc(74px + env(safe-area-inset-bottom,0px));
+  z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:.86rem;font-weight:600;
+  opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.subnav{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;margin:0 -16px;padding-inline:16px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{appearance:none;font:inherit;font-size:.86rem;font-weight:600;white-space:nowrap;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;
+  padding:9px 16px;min-height:44px;scroll-snap-align:start;flex:none}
+.subnav button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+dl.gloss{display:flex;flex-direction:column;gap:12px;margin:0}
+dl.gloss dt{font-family:var(--disp);font-size:1rem}
+dl.gloss dd{margin:2px 0 0;font-size:.89rem;color:var(--ink-2)}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:.89rem;color:var(--ink-2)}
+ol.steps b,ul.bul b{color:var(--ink)}
+ul.bul{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:6px;font-size:.89rem;color:var(--ink-2)}
+
+/* iPhone estreito (SE, mini): uma coluna nos formulários e números menos largos */
+@media (max-width:389px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .tile .v{font-size:1.55rem}
+  .hero .watts .big{font-size:2.25rem}
+  .hero .ti{font-size:1.28rem}
+  .tabbar button{font-size:.66rem}
+}
+@media (min-width:760px){
+  .grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
+  h1{font-size:1.9rem}
+}
+@media (min-width:900px){
+  .shell{grid-template-columns:216px 1fr;max-width:1180px;margin:0 auto}
+  .side{display:block;border-right:1px solid var(--line-soft);padding:18px 14px;
+    position:sticky;top:0;align-self:start;height:max-content}
+  .side .brand{flex-direction:column;align-items:flex-start;gap:0;margin-bottom:16px}
+  .side nav{display:flex;flex-direction:column;gap:2px}
+  .side nav button{appearance:none;font:inherit;font-weight:600;text-align:left;cursor:pointer;border:0;background:none;
+    color:var(--ink-2);padding:10px 11px;min-height:44px;border-radius:9px;display:flex;align-items:center;gap:9px}
+  .side nav button:hover{background:var(--surface-2);color:var(--ink)}
+  .side nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+  .tabbar{display:none}
+  .main{padding:0 26px 60px}
+  .topbar{display:none}
+  .stack{padding-block:22px}
+  .subnav{margin:0;padding-inline:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><b>Diário de Potência</b><span>Treino por watts</span></div>
+    <nav id="sidenav"></nav>
+    <div style="margin-top:18px"><button class="btn sm ghost" id="themebtn2">Tema claro/escuro</button></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="brand" style="min-width:0"><b>Diário de Potência</b></div>
+      <div class="sp"></div>
+      <span class="agora" id="agora"></span>
+      <button class="iconbtn" id="themebtn" title="Tema claro/escuro" aria-label="Alternar tema">◐</button>
+    </div>
+    <main id="view" class="stack"></main>
+  </div>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="Secções"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   1. Modelo de treino — zonas, fórmulas, plano de 13 semanas
+   ============================================================ */
+const ZONAS = [
+  {z:"Z1", nome:"Recuperação",   a:0,   b:55,  cor:"--z1", para:"Pedalar a soltar. Serve para recuperar, não para treinar."},
+  {z:"Z2", nome:"Resistência",   a:56,  b:75,  cor:"--z2", para:"A base de tudo. Queima gordura e constrói o motor aeróbico."},
+  {z:"Z3", nome:"Tempo",         a:76,  b:90,  cor:"--z3", para:"Ritmo de passeio forte. Útil, mas cansa mais do que rende."},
+  {z:"Z4", nome:"Limiar",        a:91,  b:105, cor:"--z4", para:"A zona que sobe o FTP. Difícil de falar, sustentável 20–60 min."},
+  {z:"Z5", nome:"VO2máx",        a:106, b:120, cor:"--z5", para:"Esforços de 3 a 5 min. Sobe o teto da cilindrada."},
+  {z:"Z6", nome:"Anaeróbio",     a:121, b:150, cor:"--z6", para:"30 s a 2 min. Ataques, contrarrelógios curtos."},
+  {z:"Z7", nome:"Neuromuscular", a:151, b:220, cor:"--z7", para:"Sprints de 5 a 15 s. Força pura."},
+];
+const zonaDe = p => ZONAS.find(z => p>=z.a && p<=z.b) || ZONAS[6];
+
+const PLANO = [
+ {s:1,b:"Avaliação",d:"A",t:"Teste de FTP — rampa",loc:"Rolo",min:45,tss:50,z:"Z5",
+  alvos:[["Aquecimento",60,70],["Rampa","+20 W/min"],["Arrefecer",45,55]],
+  desc:"Aquece 15 min a 60–70% com 3×30 s a 100 rpm. Depois começa em 100 W e sobe 20 W a cada minuto, sentado, até não conseguires manter a cadência acima de 70 rpm. Anota a potência média do último minuto completo: o FTP é ≈75% desse valor. Arrefece 10 min soltinho. Mete o resultado na aba Registar › Teste de FTP."},
+ {s:1,b:"Avaliação",d:"B",t:"Rodagem Z2 + cadência",loc:"Livre",min:60,tss:45,z:"Z2",
+  alvos:[["Contínuo",65,72],["4× 1 min a 100–105 rpm",65,72]],
+  desc:"60 min a 65–72% do FTP. A cada 15 min faz 1 min a 100–105 rpm sem subir os watts. Objetivo real do dia: habituar o olho ao número da potência em vez da velocidade."},
+ {s:1,b:"Avaliação",d:"L",t:"Longo Z2 constante",loc:"Estrada",min:150,tss:140,z:"Z2",
+  alvos:[["Toda a saída",60,75]],
+  desc:"2h30 a 60–75% do FTP. Objetivo único: não passar de 75% nas subidas. Trava-te, usa marchas leves. Se a subida obrigar a passar, passa — mas volta logo a Z2. Vais achar que vais devagar. É isso mesmo."},
+
+ {s:2,b:"Base aeróbica",d:"A",t:"Sweet spot 3×10",loc:"Rolo",min:70,tss:75,z:"Z4",
+  alvos:[["Aquecimento",60,70],["3×10 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 3×10 min a 88–93% do FTP, 5 min solto entre blocos. Cadência 85–95 rpm. Deve ser \"confortavelmente difícil\": consegues dizer uma frase curta, não uma conversa."},
+ {s:2,b:"Base aeróbica",d:"B",t:"Z2 + arranques",loc:"Livre",min:75,tss:55,z:"Z2",
+  alvos:[["Contínuo",65,72],["6×30 s",110,120]],
+  desc:"75 min a 65–72%. A cada 12 min, 30 s a 110–120% só para abrir as pernas, voltando logo a Z2. Não são sprints máximos."},
+ {s:2,b:"Base aeróbica",d:"L",t:"Longo Z2",loc:"Estrada",min:180,tss:170,z:"Z2",
+  alvos:[["Toda a saída",60,75]],
+  desc:"3h a 60–75%. Come e bebe de 30 em 30 min (±60 g de hidratos por hora). Se a potência normalizada no fim estiver acima de 75% do FTP, foste rápido demais."},
+
+ {s:3,b:"Base aeróbica",d:"A",t:"Sweet spot 3×12",loc:"Rolo",min:75,tss:85,z:"Z4",
+  alvos:[["Aquecimento",60,70],["3×12 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 3×12 min a 88–93%, 5 min solto entre blocos. Se o terceiro bloco cair mais de 5% em potência, para aí: já ficou feito e o resto só acumula fadiga."},
+ {s:3,b:"Base aeróbica",d:"B",t:"Z2 + força em subida",loc:"Livre",min:75,tss:60,z:"Z3",
+  alvos:[["Contínuo",65,72],["6×1 min a 55–65 rpm",80,85]],
+  desc:"75 min a 65–72% com 6×1 min a 80–85% do FTP a 55–65 rpm, sentado, numa subida ou com muita resistência. 2 min solto entre repetições. Trabalha força sem grande fadiga."},
+ {s:3,b:"Base aeróbica",d:"L",t:"Longo Z2 + tempo",loc:"Estrada",min:195,tss:190,z:"Z3",
+  alvos:[["Base",60,75],["2×15 min",80,88]],
+  desc:"3h15 em Z2 com 2×15 min a 80–88% depois da primeira hora, 10 min solto entre blocos."},
+
+ {s:4,b:"Base aeróbica",d:"A",t:"Sweet spot 2×20",loc:"Rolo",min:75,tss:90,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2×20 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 2×20 min a 88–93%, 8 min solto entre blocos. É o treino-chave do mês: se o completares com a potência estável, o teu FTP já subiu em relação à semana 1."},
+ {s:4,b:"Base aeróbica",d:"B",t:"Rodagem solta",loc:"Livre",min:60,tss:40,z:"Z2",
+  alvos:[["Contínuo",60,68]],
+  desc:"60 min a 60–68%, cadência livre. Nada de heroísmos — este dia existe para o longo de sábado correr bem."},
+ {s:4,b:"Base aeróbica",d:"L",t:"Longo + sweet spot",loc:"Estrada",min:210,tss:210,z:"Z4",
+  alvos:[["Base",60,75],["3×10 min",88,93]],
+  desc:"3h30 em Z2 com 3×10 min a 88–93% espalhados pela segunda e terceira hora. Se der, faz os blocos em subida."},
+
+ {s:5,b:"Descarga",d:"A",t:"Ativação curta",loc:"Rolo",min:45,tss:32,z:"Z2",
+  alvos:[["Contínuo",60,70],["3×1 min",95,100]],
+  desc:"45 min a 60–70% com 3×1 min a 95–100% no fim. Semana de descarga: o trabalho agora é absorver, não acumular."},
+ {s:5,b:"Descarga",d:"B",t:"Regenerativo",loc:"Livre",min:50,tss:30,z:"Z1",
+  alvos:[["Contínuo",50,64]],
+  desc:"50 min abaixo de 65% do FTP. Se te apetecer apertar, não apertes."},
+ {s:5,b:"Descarga",d:"L",t:"Longo fácil",loc:"Estrada",min:120,tss:105,z:"Z2",
+  alvos:[["Toda a saída",60,70]],
+  desc:"2h a 60–70%, de preferência plano. Semana leve de propósito: é durante a descarga que a forma aparece."},
+
+ {s:6,b:"Limiar e subidas",d:"A",t:"Limiar 4×8",loc:"Rolo",min:70,tss:85,z:"Z4",
+  alvos:[["Aquecimento",60,70],["4×8 min",98,102],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 4×8 min a 98–102% do FTP, 4 min solto entre. Respiração funda e controlada; não deves conseguir falar. Se a potência do 4.º bloco cair >7%, fica nos três."},
+ {s:6,b:"Limiar e subidas",d:"B",t:"Z2 + força 5×2",loc:"Livre",min:75,tss:65,z:"Z3",
+  alvos:[["Contínuo",65,72],["5×2 min a 55–65 rpm",85,90]],
+  desc:"75 min em Z2 com 5×2 min a 85–90% a 55–65 rpm, sentado e com o tronco quieto. 3 min solto entre repetições."},
+ {s:6,b:"Limiar e subidas",d:"L",t:"Longo com limiar em subida",loc:"Estrada",min:180,tss:200,z:"Z4",
+  alvos:[["Base",60,75],["4×10 min",95,100]],
+  desc:"3h em Z2 com 4×10 min a 95–100% feitos em subida, recuperando na descida (5 min solto). Sem subidas à mão, faz contra o vento num plano."},
+
+ {s:7,b:"Limiar e subidas",d:"A",t:"Over-unders 3×9",loc:"Rolo",min:70,tss:85,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2 min",95,95],["1 min",105,105]],
+  desc:"Aquece 15 min. 3×9 min a alternar 2 min a 95% com 1 min a 105%, sem parar entre os degraus. 6 min solto entre blocos. Ensina o corpo a reciclar lactato enquanto continua a pedalar forte — é o treino que mais rende em subidas longas."},
+ {s:7,b:"Limiar e subidas",d:"B",t:"Z2 contínuo",loc:"Livre",min:70,tss:50,z:"Z2",
+  alvos:[["Contínuo",65,72]],
+  desc:"70 min a 65–72%, cadência 90 rpm. Dia fácil a sério — está entre dois treinos duros."},
+ {s:7,b:"Limiar e subidas",d:"L",t:"Longo + 2×20 limiar",loc:"Estrada",min:195,tss:205,z:"Z4",
+  alvos:[["Base",60,75],["2×20 min",95,100]],
+  desc:"3h15 em Z2 com 2×20 min a 95–100% na segunda metade, 10 min solto entre blocos."},
+
+ {s:8,b:"Limiar e subidas",d:"A",t:"Limiar 2×20",loc:"Rolo",min:75,tss:95,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2×20 min",95,100],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 2×20 min a 95–100%, 10 min solto entre. Compara com o sweet spot 2×20 da semana 4: mesma duração, mais watts. É isso que é progresso."},
+ {s:8,b:"Limiar e subidas",d:"B",t:"Z2 + cadência alta",loc:"Livre",min:60,tss:45,z:"Z2",
+  alvos:[["Contínuo",65,72],["4×2 min a 105–110 rpm",65,72]],
+  desc:"60 min em Z2 com 4×2 min a 105–110 rpm mantendo a potência de Z2. Trabalha a eficiência do pedalar, não a força."},
+ {s:8,b:"Limiar e subidas",d:"L",t:"Longo + subidas 5×5",loc:"Estrada",min:210,tss:220,z:"Z5",
+  alvos:[["Base",60,75],["5×5 min",105,110]],
+  desc:"3h30 em Z2 com 5×5 min a 105–110% em subida, recuperação completa na descida. É o treino mais forte do bloco — come bem antes."},
+
+ {s:9,b:"Reavaliação",d:"A",t:"Rodagem de ativação",loc:"Livre",min:50,tss:35,z:"Z2",
+  alvos:[["Contínuo",60,70],["2×1 min",98,102]],
+  desc:"50 min a 60–70% com 2×1 min a 100%. Descansa bem: o próximo treino é um teste e os números contam."},
+ {s:9,b:"Reavaliação",d:"B",t:"Teste de FTP — 20 minutos",loc:"Rolo",min:70,tss:75,z:"Z4",
+  alvos:[["Aquecimento",60,70],["20 min no máximo sustentável"],["Arrefecer",45,55]],
+  desc:"Aquece 20 min (inclui 3×1 min a 100% e 5 min solto). Depois 20 min no máximo que consegues sustentar: começa conservador nos primeiros 5 min e aperta no fim — quem parte forte perde 10 W no total. O FTP é ≈95% da potência média desses 20 min. Arrefece 10 min e atualiza o FTP na app: as zonas mudam todas de uma vez."},
+ {s:9,b:"Reavaliação",d:"L",t:"Longo Z2 com zonas novas",loc:"Estrada",min:150,tss:140,z:"Z2",
+  alvos:[["Toda a saída",60,75]],
+  desc:"2h30 em Z2 já com as zonas novas. Repara que o \"fácil\" agora dá mais watts do que dava na semana 1 ao mesmo esforço."},
+
+ {s:10,b:"VO2máx",d:"A",t:"VO2máx 5×3",loc:"Rolo",min:65,tss:80,z:"Z5",
+  alvos:[["Aquecimento",60,70],["5×3 min",115,120],["Recuperação",50,58]],
+  desc:"Aquece 20 min bem feito (inclui 2×1 min forte). 5×3 min a 115–120%, 3 min solto entre. Entra forte mas controlado: se a primeira repetição for rápida demais estragas as outras quatro."},
+ {s:10,b:"VO2máx",d:"B",t:"Z2 + arranques",loc:"Livre",min:70,tss:50,z:"Z2",
+  alvos:[["Contínuo",65,72],["4×1 min",108,112]],
+  desc:"70 min em Z2 com 4×1 min a 110% a cada 15 min. Recupera por completo entre eles."},
+ {s:10,b:"VO2máx",d:"L",t:"Longo + limiar 3×12",loc:"Estrada",min:180,tss:200,z:"Z4",
+  alvos:[["Base",60,75],["3×12 min",95,100]],
+  desc:"3h em Z2 com 3×12 min a 95–100%, 6 min solto entre blocos."},
+
+ {s:11,b:"VO2máx",d:"A",t:"VO2máx 6×3",loc:"Rolo",min:70,tss:90,z:"Z5",
+  alvos:[["Aquecimento",60,70],["6×3 min",115,120],["Recuperação",50,58]],
+  desc:"Aquece 20 min. 6×3 min a 115–120%, 3 min solto. Objetivo: as seis repetições com menos de 5% de queda entre a primeira e a última."},
+ {s:11,b:"VO2máx",d:"B",t:"Z2 contínuo",loc:"Livre",min:75,tss:55,z:"Z2",
+  alvos:[["Contínuo",65,72]],
+  desc:"75 min a 65–72%. Resiste à tentação de apertar — estás entre os dois treinos mais duros do plano."},
+ {s:11,b:"VO2máx",d:"L",t:"Longo com subidas fortes",loc:"Estrada",min:210,tss:225,z:"Z5",
+  alvos:[["Base",60,75],["6×4 min",108,115]],
+  desc:"3h30 em Z2 com 6×4 min a 108–115% em subida. Recupera por completo nas descidas; se a potência cair mais de 8%, termina as que faltam em Z2."},
+
+ {s:12,b:"Consolidação",d:"A",t:"VO2máx 4×4",loc:"Rolo",min:70,tss:85,z:"Z5",
+  alvos:[["Aquecimento",60,70],["4×4 min",112,118],["Recuperação",50,58]],
+  desc:"Aquece 20 min. 4×4 min a 112–118%, 4 min solto. Quatro minutos custam bem mais do que três — guarda algo para a última."},
+ {s:12,b:"Consolidação",d:"B",t:"Rodagem solta",loc:"Livre",min:60,tss:42,z:"Z2",
+  alvos:[["Contínuo",62,70]],
+  desc:"60 min a 62–70%, cadência confortável."},
+ {s:12,b:"Consolidação",d:"L",t:"Longo grande",loc:"Estrada",min:225,tss:235,z:"Z4",
+  alvos:[["Base",60,75],["2×20 min",95,100]],
+  desc:"3h45 em Z2 com 2×20 min a 95–100% na última hora — já com fome e cansaço. É aí que se ganha resistência de verdade."},
+
+ {s:13,b:"Reavaliação",d:"A",t:"Ativação",loc:"Rolo",min:45,tss:32,z:"Z2",
+  alvos:[["Contínuo",60,70],["3×1 min",98,102]],
+  desc:"45 min a 60–70% com 3×1 min a 100%. Dorme bem."},
+ {s:13,b:"Reavaliação",d:"B",t:"Teste de FTP — rampa",loc:"Rolo",min:45,tss:50,z:"Z5",
+  alvos:[["Aquecimento",60,70],["Rampa","+20 W/min"],["Arrefecer",45,55]],
+  desc:"Exatamente o mesmo protocolo da semana 1, para a comparação ser honesta: rampa de 20 W por minuto a partir de 100 W. FTP ≈75% do último minuto completo."},
+ {s:13,b:"Reavaliação",d:"L",t:"Saída livre + balanço",loc:"Estrada",min:180,tss:170,z:"Z2",
+  alvos:[["À vontade",60,80]],
+  desc:"3h à vontade. No fim abre a aba Evolução e compara com a semana 1: FTP, W/kg, forma (CTL) e os teus recordes de potência. Depois carrega em \"Recomeçar na semana 1\" nos Dados: o plano reinicia com o teu FTP novo, e os mesmos treinos passam a valer mais watts."},
+
+ {s:14,b:"Base reforçada",d:"A",t:"Sweet spot 3×15",loc:"Rolo",min:80,tss:100,z:"Z4",
+  alvos:[["Aquecimento",60,70],["3×15 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 3×15 min a 88–93%, 5 min solto entre blocos. É o mesmo terreno da semana 3, com mais cinco minutos por bloco e menos recuperação — e com um FTP maior por baixo. Repara em quanto mais controlado parece agora."},
+ {s:14,b:"Base reforçada",d:"B",t:"Z2 longo + cadência",loc:"Livre",min:80,tss:60,z:"Z2",
+  alvos:[["Contínuo",65,72],["3×3 min a 100–105 rpm",65,72]],
+  desc:"80 min a 65–72% com 3×3 min a 100–105 rpm sem subir os watts. A base do segundo ciclo é mais volume em Z2, não mais intensidade."},
+ {s:14,b:"Base reforçada",d:"L",t:"Primeiro longo de 4h",loc:"Estrada",min:240,tss:230,z:"Z2",
+  alvos:[["Toda a saída",60,75]],
+  desc:"4h a 60–75%. Come de 30 em 30 min desde o início, mesmo sem fome, e bebe antes de ter sede. Quem rebenta à terceira hora rebentou por não ter comido na primeira."},
+
+ {s:15,b:"Base reforçada",d:"A",t:"Sweet spot 2×25",loc:"Rolo",min:85,tss:110,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2×25 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 2×25 min a 88–93%, 8 min solto. Vinte e cinco minutos seguidos exigem gerir a cabeça: divide-os mentalmente em cinco de cinco e conta ao contrário."},
+ {s:15,b:"Base reforçada",d:"B",t:"Z2 + força 6×3",loc:"Livre",min:80,tss:70,z:"Z3",
+  alvos:[["Contínuo",65,72],["6×3 min a 55–65 rpm",85,90]],
+  desc:"80 min em Z2 com 6×3 min a 85–90% a 55–65 rpm, sentado e com o tronco quieto. 3 min solto entre. É o dobro do tempo em força em relação à semana 6."},
+ {s:15,b:"Base reforçada",d:"L",t:"Longo com tempo contínuo",loc:"Estrada",min:225,tss:230,z:"Z3",
+  alvos:[["Base",60,75],["1×40 min",80,88]],
+  desc:"3h45 em Z2 com um bloco único de 40 min a 80–88% a meio da saída. Quarenta minutos contínuos nesse ritmo é exatamente o que te separa de aguentar uma subida longa sem explodir."},
+
+ {s:16,b:"Base reforçada",d:"A",t:"Sweet spot 3×20",loc:"Rolo",min:90,tss:120,z:"Z4",
+  alvos:[["Aquecimento",60,70],["3×20 min",88,93],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 3×20 min a 88–93%, 6 min solto. Sessenta minutos acumulados em sweet spot — o treino com mais tempo em zona de todo o plano. Se o terceiro bloco não sair, fica nos dois: não é derrota nenhuma."},
+ {s:16,b:"Base reforçada",d:"B",t:"Rodagem solta",loc:"Livre",min:60,tss:42,z:"Z2",
+  alvos:[["Contínuo",60,68]],
+  desc:"60 min a 60–68%. Entre dois treinos grandes, menos é mais."},
+ {s:16,b:"Base reforçada",d:"L",t:"Longo 4h com blocos no fim",loc:"Estrada",min:240,tss:265,z:"Z4",
+  alvos:[["Base",60,75],["3×12 min",95,100]],
+  desc:"4h em Z2 com 3×12 min a 95–100% na última hora, já cansado e já com fome. É o treino que mais se parece com os últimos quilómetros de uma prova longa."},
+
+ {s:17,b:"Descarga",d:"A",t:"Ativação com abertura",loc:"Rolo",min:50,tss:38,z:"Z2",
+  alvos:[["Contínuo",60,70],["4×1 min",98,102]],
+  desc:"50 min a 60–70% com 4×1 min a 100% no fim. Semana leve: resiste à vontade de aproveitar que te sentes bem."},
+ {s:17,b:"Descarga",d:"B",t:"Regenerativo",loc:"Livre",min:50,tss:30,z:"Z1",
+  alvos:[["Contínuo",50,64]],
+  desc:"50 min abaixo de 65%, plano e com cadência alta. Deves acabar a achar que não treinaste."},
+ {s:17,b:"Descarga",d:"L",t:"Longo fácil",loc:"Estrada",min:150,tss:125,z:"Z2",
+  alvos:[["Toda a saída",60,70]],
+  desc:"2h30 a 60–70%. Escolhe um percurso de que gostes — esta semana o treino também é mental."},
+
+ {s:18,b:"Limiar avançado",d:"A",t:"Limiar 3×15",loc:"Rolo",min:80,tss:105,z:"Z4",
+  alvos:[["Aquecimento",60,70],["3×15 min",98,102],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 3×15 min a 98–102%, 5 min solto. Quarenta e cinco minutos no limiar numa só sessão — na semana 6 eram trinta e dois, e a um FTP mais baixo."},
+ {s:18,b:"Limiar avançado",d:"B",t:"Z2 + cadência baixa longa",loc:"Livre",min:80,tss:70,z:"Z3",
+  alvos:[["Contínuo",65,72],["4×5 min a 50–60 rpm",80,85]],
+  desc:"80 min em Z2 com 4×5 min a 80–85% a 50–60 rpm, sentado numa subida suave. 4 min solto entre. Cinco minutos a essa cadência pedem às pernas o que uma subida de 10% pede."},
+ {s:18,b:"Limiar avançado",d:"L",t:"Longo com subidas de 15 min",loc:"Estrada",min:225,tss:250,z:"Z4",
+  alvos:[["Base",60,75],["4×15 min",95,100]],
+  desc:"3h45 em Z2 com 4×15 min a 95–100% em subida, recuperando na descida. Sem subidas de 15 min à mão, encadeia duas e aguenta o ritmo na ligação entre elas."},
+
+ {s:19,b:"Limiar avançado",d:"A",t:"Over-unders 4×10",loc:"Rolo",min:80,tss:105,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2 min",97,97],["1 min",107,107]],
+  desc:"Aquece 15 min. 4×10 min a alternar 2 min a 97% com 1 min a 107%, sem parar nos degraus. 5 min solto entre blocos. Mais duro que a semana 7 nos dois degraus e com mais um bloco."},
+ {s:19,b:"Limiar avançado",d:"B",t:"Z2 contínuo",loc:"Livre",min:75,tss:55,z:"Z2",
+  alvos:[["Contínuo",65,72]],
+  desc:"75 min a 65–72%. Dia de ponte entre dois treinos grandes — é suposto ser aborrecido."},
+ {s:19,b:"Limiar avançado",d:"L",t:"Longo 4h + limiar partido",loc:"Estrada",min:240,tss:265,z:"Z4",
+  alvos:[["Base",60,75],["6×8 min",98,102]],
+  desc:"4h em Z2 com 6×8 min a 98–102% espalhados pela segunda metade, 5 min solto entre. Seis entradas no limiar ao longo de quatro horas ensinam o corpo a repetir o esforço, não só a sustentá-lo."},
+
+ {s:20,b:"Limiar avançado",d:"A",t:"Limiar 2×25",loc:"Rolo",min:85,tss:115,z:"Z4",
+  alvos:[["Aquecimento",60,70],["2×25 min",95,100],["Recuperação",50,58]],
+  desc:"Aquece 15 min. 2×25 min a 95–100%, 10 min solto. Se aguentares isto com a potência estável, o teu FTP real já está acima do que tens registado — o teste da semana 21 vai confirmá-lo."},
+ {s:20,b:"Limiar avançado",d:"B",t:"Z2 + arranques em subida",loc:"Livre",min:70,tss:55,z:"Z2",
+  alvos:[["Contínuo",65,72],["5×30 s de pé",118,125]],
+  desc:"70 min em Z2 com 5×30 s a 120% em subida, de pé, recuperando por completo entre eles. Serve a coordenação, não a resistência."},
+ {s:20,b:"Limiar avançado",d:"L",t:"Longo grande com subidas",loc:"Estrada",min:255,tss:290,z:"Z5",
+  alvos:[["Base",60,75],["6×6 min",105,112]],
+  desc:"4h15 em Z2 com 6×6 min a 105–112% em subida. É a semana mais pesada dos seis meses: come, bebe e dorme a condizer, e não marques nada para domingo à tarde."},
+
+ {s:21,b:"Reavaliação",d:"A",t:"Ativação",loc:"Rolo",min:45,tss:32,z:"Z2",
+  alvos:[["Contínuo",60,70],["3×1 min",98,102]],
+  desc:"45 min a 60–70% com 3×1 min a 100%. Nada mais — amanhã os números contam."},
+ {s:21,b:"Reavaliação",d:"B",t:"Teste de FTP — 20 minutos",loc:"Rolo",min:70,tss:78,z:"Z4",
+  alvos:[["Aquecimento",60,70],["20 min no máximo sustentável"],["Arrefecer",45,55]],
+  desc:"Exatamente o protocolo da semana 9, para a comparação valer: aquece 20 min, depois 20 min no máximo que consegues sustentar. FTP = 95% da média. Atualiza o FTP na app logo a seguir."},
+ {s:21,b:"Reavaliação",d:"L",t:"Longo Z2 com zonas novas",loc:"Estrada",min:180,tss:165,z:"Z2",
+  alvos:[["Toda a saída",60,75]],
+  desc:"3h em Z2 já com as zonas novas. Repara quantos watts dá agora o teu 'fácil' comparado com a semana 1."},
+
+ {s:22,b:"VO2máx e resistência",d:"A",t:"VO2máx 6×4",loc:"Rolo",min:80,tss:105,z:"Z5",
+  alvos:[["Aquecimento",60,70],["6×4 min",112,118],["Recuperação",50,58]],
+  desc:"Aquece 20 min. 6×4 min a 112–118%, 4 min solto. Vinte e quatro minutos acima do limiar numa sessão — na semana 12 eram dezasseis."},
+ {s:22,b:"VO2máx e resistência",d:"B",t:"Z2 + 30/30",loc:"Rolo",min:70,tss:60,z:"Z5",
+  alvos:[["Base",65,72],["30 s",118,122],["30 s solto",48,52]],
+  desc:"70 min em Z2 com 2 séries de 10×(30 s a 120% / 30 s solto), 6 min entre séries. Curtas-curtas: acumulam muito tempo com o consumo de oxigénio no máximo e deixam pouca fadiga para o dia seguinte."},
+ {s:22,b:"VO2máx e resistência",d:"L",t:"Longo + limiar 4×12",loc:"Estrada",min:225,tss:250,z:"Z4",
+  alvos:[["Base",60,75],["4×12 min",95,100]],
+  desc:"3h45 em Z2 com 4×12 min a 95–100%, 6 min solto entre blocos."},
+
+ {s:23,b:"VO2máx e resistência",d:"A",t:"VO2máx 5×5",loc:"Rolo",min:85,tss:110,z:"Z5",
+  alvos:[["Aquecimento",60,70],["5×5 min",110,115],["Recuperação",50,58]],
+  desc:"Aquece 20 min. 5×5 min a 110–115%, 5 min solto. Cinco minutos é a duração de uma subida curta a sério: gere o primeiro minuto ou não chegas ao quinto."},
+ {s:23,b:"VO2máx e resistência",d:"B",t:"Z2 + força 5×4",loc:"Livre",min:75,tss:65,z:"Z3",
+  alvos:[["Contínuo",65,72],["5×4 min a 55–65 rpm",85,90]],
+  desc:"75 min em Z2 com 5×4 min a 85–90% a 55–65 rpm. 3 min solto entre."},
+ {s:23,b:"VO2máx e resistência",d:"L",t:"Longo 4h15 misto",loc:"Estrada",min:255,tss:285,z:"Z4",
+  alvos:[["Base",60,75],["2×25 min",95,100],["3×2 min",112,118]],
+  desc:"4h15 em Z2 com 2×25 min a 95–100% e, já perto do fim, 3×2 min a 115% só para veres o que ainda sobra. É o treino mais completo do plano."},
+
+ {s:24,b:"VO2máx e resistência",d:"A",t:"VO2máx 8×2,5",loc:"Rolo",min:75,tss:100,z:"Z5",
+  alvos:[["Aquecimento",60,70],["8×2,5 min",118,122],["Recuperação",50,58]],
+  desc:"Aquece 20 min. 8×2,5 min a 118–122%, com 2,5 min solto entre. Recuperação igual ao esforço: o que conta é o acumulado, não cada repetição isolada."},
+ {s:24,b:"VO2máx e resistência",d:"B",t:"Rodagem solta",loc:"Livre",min:60,tss:42,z:"Z2",
+  alvos:[["Contínuo",60,68]],
+  desc:"60 min a 60–68%, cadência confortável."},
+ {s:24,b:"VO2máx e resistência",d:"L",t:"Longo de simulação",loc:"Estrada",min:240,tss:275,z:"Z4",
+  alvos:[["Base",60,75],["Subidas",95,110]],
+  desc:"4h como se fosse uma prova: come e bebe a horas, ataca as subidas em Z4 e recupera a sério nas descidas. No fim vê a potência normalizada — deve ficar à volta de 75% do FTP. Se ficou muito acima, foste rápido demais no plano."},
+
+ {s:25,b:"Descarga",d:"A",t:"Ativação curta",loc:"Rolo",min:45,tss:34,z:"Z2",
+  alvos:[["Contínuo",60,70],["3×1 min",98,102]],
+  desc:"45 min a 60–70% com 3×1 min a 100%."},
+ {s:25,b:"Descarga",d:"B",t:"Regenerativo",loc:"Livre",min:45,tss:28,z:"Z1",
+  alvos:[["Contínuo",50,64]],
+  desc:"45 min abaixo de 65%. Penúltima semana — a forma aparece no descanso."},
+ {s:25,b:"Descarga",d:"L",t:"Longo fácil",loc:"Estrada",min:120,tss:105,z:"Z2",
+  alvos:[["Toda a saída",60,70]],
+  desc:"2h a 60–70%. Descansa a cabeça também."},
+
+ {s:26,b:"Reavaliação",d:"A",t:"Ativação",loc:"Rolo",min:45,tss:32,z:"Z2",
+  alvos:[["Contínuo",60,70],["3×1 min",98,102]],
+  desc:"45 min a 60–70% com 3×1 min a 100%. Dorme bem."},
+ {s:26,b:"Reavaliação",d:"B",t:"Teste de FTP — rampa",loc:"Rolo",min:45,tss:50,z:"Z5",
+  alvos:[["Aquecimento",60,70],["Rampa","+20 W/min"],["Arrefecer",45,55]],
+  desc:"Volta ao protocolo da semana 1 e da 13: rampa de 20 W por minuto a partir de 100 W. Seis meses de dados medidos com a mesma régua — é isso que torna a comparação honesta."},
+ {s:26,b:"Reavaliação",d:"L",t:"Longo de balanço",loc:"Estrada",min:210,tss:195,z:"Z2",
+  alvos:[["À vontade",60,80]],
+  desc:"3h30 à vontade. No fim abre a Evolução e olha para os seis meses inteiros: FTP, W/kg, forma e a curva de potência completa. Compara com a semana 1 — é a única comparação que interessa. Depois carrega em \"Novo ciclo\" nos Dados para recomeçares com os números de agora."},
+
+];
+const BLOCOS = ["Avaliação","Base aeróbica","Descarga","Limiar e subidas","Reavaliação","VO2máx","Consolidação",
+  "Base reforçada","Limiar avançado","VO2máx e resistência"];
+const DIAS = {A:"Semana · treino 1", B:"Semana · treino 2", L:"Fim de semana · longo", X:"Treino extra"};
+
+/* ============ treino contínuo ============
+   O plano escrito tem MACRO semanas e nunca termina: a semana 27 volta ao
+   conteúdo da semana 1 como ciclo 2, a 53 como ciclo 3, e por aí adiante.
+   Como todos os alvos estão em percentagem do FTP, a mesma semana vale mais
+   watts a cada volta — é o teste de reavaliação que faz o plano progredir.
+   Nada tem de ser reiniciado à mão.                                         */
+const MACRO = 26;
+const semBase  = s => ((s-1) % MACRO) + 1;          /* 27 -> 1  */
+const cicloNum = s => Math.floor((s-1)/MACRO) + 1;  /* 27 -> 2  */
+const NOMES_CICLO = ["construir a base","consolidar e subir","manter e afinar"];
+const tituloCiclo = n => `Ciclo ${n} · ${NOMES_CICLO[(n-1) % NOMES_CICLO.length]}`;
+const ORDEM = {A:0, B:1, L:2, X:3};
+
+/* id único por semana absoluta: as marcas de "feito" do ciclo 1 não contaminam o 2 */
+const planoId = p => p.custom
+  ? (p.sAbs ? `${p.cid}@${p.sAbs}` : p.cid)
+  : `s${p.sAbs || p.s}${p.d}`;
+
+/* catálogo: as MACRO semanas escritas + os treinos criados por ti */
+function CATALOGO(){
+  return PLANO.concat(S.meus).sort((x,y) => ((x.s||0)-(y.s||0)) || (ORDEM[x.d]-ORDEM[y.d]) || (x.t<y.t?-1:1));
+}
+/* os treinos de uma semana absoluta, já marcados com o ciclo a que pertencem */
+function daSemana(sAbs){
+  const base = semBase(sAbs), ciclo = cicloNum(sAbs);
+  return CATALOGO().filter(p => p.s === base).map(p => ({...p, sAbs, ciclo, b: p.b}));
+}
+/* resolve um planoId de volta ao treino, seja do plano ou teu */
+function acharPlano(id){
+  if(!id) return null;
+  const m = /^s(\d+)([ABLX])$/.exec(id);
+  if(m){
+    const sAbs = +m[1], p = PLANO.find(x => x.s === semBase(sAbs) && x.d === m[2]);
+    return p ? {...p, sAbs, ciclo:cicloNum(sAbs)} : null;
+  }
+  const c = id.split("@"), meu = S.meus.find(x => x.cid === c[0]);
+  if(!meu) return null;
+  return c[1] ? {...meu, sAbs:+c[1], ciclo:cicloNum(+c[1])} : meu;
+}
+/* ---- onde fazer cada treino: rolo ou fora ----
+   O plano sugere um sítio, mas quem decide és tu no dia. A escolha fica
+   guardada por treino e muda o ficheiro a carregar e os conselhos. */
+const localDe = p => (S.onde[planoId(p)] || {}).loc || p.loc;
+const DENTRO = l => l === "Rolo";
+
+/* treinos de interior que existem em .zwo/.mrc para o MyWhoosh */
+const ROLO = {"2A":"S02_Sweet_spot_3x10","3A":"S03_Sweet_spot_3x12","4A":"S04_Sweet_spot_2x20",
+  "5A":"S05_Ativacao_curta_(descarga)","6A":"S06_Limiar_4x8","7A":"S07_Over-unders_3x9",
+  "8A":"S08_Limiar_2x20","9B":"S09_Teste_de_FTP_20_minutos","10A":"S10_VO2max_5x3",
+  "11A":"S11_VO2max_6x3","12A":"S12_VO2max_4x4"};
+const ficheiroRolo = p => p.custom ? null : ROLO[`${semBase(p.sAbs || p.s)}${p.d}`] || null;
+
+/* o que muda quando tiras o treino do sítio para que foi pensado */
+function notaLocal(p, loc){
+  if(loc === p.loc || (loc === "Estrada" && p.loc === "Livre")) return "";
+  if(DENTRO(loc)){
+    if(p.min >= 150) return `No rolo, ${fmtMin(p.min)} seguidos é muito mais duro do que na estrada. Faz 60 a 90 min com os mesmos blocos e dá-te por satisfeito — o resto do estímulo não compensa o desgaste.`;
+    return "No rolo não há descidas para descansar: a potência fica mais constante e o treino sai mais exigente ao mesmo número. Liga o ventilador.";
+  }
+  if(/VO2|5×3|6×3|4×4|30\/30/.test(p.t))
+    return "Lá fora estes blocos pedem uma subida contínua ou um plano sem cruzamentos — parar a meio estraga a repetição. Se não tiveres onde, faz este no rolo.";
+  return "Lá fora a potência oscila com o vento e o terreno. Olha para a média do bloco, não para o número instantâneo.";
+}
+
+/* Nome do ficheiro .fit correspondente na pasta treinos-garmin/.
+   Tem de dar exactamente o mesmo que o ferramentas/gerar_treinos_garmin.py. */
+const semAcento = t => t.normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/[^\x00-\x7F]/g, "");
+function ficheiroGarmin(p){
+  if(p.custom || !(p.sAbs || p.s)) return null;
+  const base = String(semBase(p.sAbs || p.s)).padStart(2, "0");
+  const nome = semAcento(p.t).replace(/[^\w]+/g, "_").replace(/^_+|_+$/g, "").replace(/_+/g, "_").slice(0, 40);
+  return `S${base}_${p.d}_${nome}.fit`;
+}
+/* ============ ficheiros .fit para o Garmin ============
+   Mesma estrutura do ferramentas/fit.py: cabeçalho de 14 bytes, registos de
+   definição e de dados, CRC no fim. Serve os treinos que tu crias — os 78 do
+   plano já estão gerados na pasta treinos-garmin/.
+   Os alvos vão em percentagem do FTP (valor = percentagem + 1000), por isso
+   acompanham o FTP configurado no aparelho. */
+const CRC_T = [0x0000,0xCC01,0xD801,0x1400,0xF001,0x3C00,0x2800,0xE401,
+               0xA001,0x6C00,0x7800,0xB401,0x5000,0x9C01,0x8801,0x4400];
+function crcFit(bytes, crc){
+  crc = crc || 0;
+  for(const b of bytes){
+    let t = CRC_T[crc & 0xF];
+    crc = ((crc >> 4) & 0x0FFF) ^ t ^ CRC_T[b & 0xF];
+    t = CRC_T[crc & 0xF];
+    crc = ((crc >> 4) & 0x0FFF) ^ t ^ CRC_T[(b >> 4) & 0xF];
+  }
+  return crc;
+}
+function fitTreino(nome, passos){
+  const B = {e:0x00, u16:0x84, u32:0x86, u32z:0x8C, s:0x07};
+  const FID  = [[0,1,B.e],[1,2,B.u16],[2,2,B.u16],[3,4,B.u32z],[4,4,B.u32]];
+  const WKT  = [[4,1,B.e],[6,2,B.u16],[8,32,B.s]];
+  const STEP = [[254,2,B.u16],[0,24,B.s],[1,1,B.e],[2,4,B.u32],
+                [3,1,B.e],[4,4,B.u32],[5,4,B.u32],[6,4,B.u32],[7,1,B.e]];
+  const u8  = (a,v) => a.push(v & 0xFF);
+  const u16 = (a,v) => a.push(v & 0xFF, (v >> 8) & 0xFF);
+  const u32 = (a,v) => a.push(v & 0xFF, (v >>> 8) & 0xFF, (v >>> 16) & 0xFF, (v >>> 24) & 0xFF);
+  /* sem acentos: há aparelhos que mostram UTF-8 como lixo */
+  const str = (a,s,n) => { const b = new TextEncoder().encode(semAcento(String(s||"")));
+    for(let i = 0; i < n; i++) a.push(i < b.length && i < n-1 ? b[i] : 0); };
+  const c = [];
+  const def = (local, glob, campos) => { u8(c,0x40|local); u8(c,0); u8(c,0); u16(c,glob);
+    u8(c,campos.length); campos.forEach(f => { u8(c,f[0]); u8(c,f[1]); u8(c,f[2]); }); };
+  const dado = (local, campos, v) => { u8(c,local);
+    campos.forEach(([num,size,base]) => { const x = v[num];
+      if(base === B.s) str(c, x, size);
+      else if(base === B.e) u8(c, x == null ? 0xFF : x);
+      else if(base === B.u16) u16(c, x == null ? 0xFFFF : x);
+      else u32(c, x == null ? 0 : x); }); };
+
+  def(0, 0, FID);
+  dado(0, FID, {0:5, 1:255, 2:0, 3:1, 4:Math.floor(Date.now()/1000) - 631065600});
+  def(1, 26, WKT);
+  dado(1, WKT, {4:2, 6:passos.length, 8:nome});
+  def(2, 27, STEP);
+  passos.forEach((p,i) => {
+    const alvo = p.lo != null;
+    dado(2, STEP, {254:i, 0:p.nome||"", 1:0, 2:Math.round(p.segundos*1000),
+      3: alvo?4:2, 4:0,
+      5: alvo?Math.round(p.lo)+1000:0, 6: alvo?Math.round(p.hi)+1000:0,
+      7: p.intensidade == null ? 0 : p.intensidade});
+  });
+  const cab = []; u8(cab,14); u8(cab,0x20); u16(cab,2140); u32(cab,c.length);
+  cab.push(46,70,73,84);                       /* ".FIT" */
+  u16(cab, crcFit(cab));
+  const tudo = cab.concat(c);
+  u16(tudo, crcFit(tudo));
+  return new Uint8Array(tudo);
+}
+/* os passos de um treino teu, a partir dos blocos que escreveste */
+function passosDoMeu(p){
+  const fora = [];
+  (p.alvos||[]).forEach(a => {
+    if(a.length < 4 || !a[3]) return;          /* bloco sem duração não vira passo */
+    const seg = a[3]*60, n = Math.max(1, a[4]||1), solto = (a[5]||0)*60;
+    const inten = /^aquecimento/i.test(a[0]) ? 2 : /^arrefecer/i.test(a[0]) ? 3
+                : /^(recupera|solto)/i.test(a[0]) ? 1 : 0;
+    for(let i = 0; i < n; i++){
+      fora.push({nome: n>1 ? `${a[0]} ${i+1}/${n}` : a[0], segundos:seg, lo:a[1], hi:a[2], intensidade:inten});
+      if(solto && i < n-1) fora.push({nome:"Solto", segundos:solto, lo:50, hi:58, intensidade:1});
+    }
+    if(solto && n === 1) fora.push({nome:"Solto", segundos:solto, lo:50, hi:58, intensidade:1});
+  });
+  return fora;
+}
+async function descarregarFit(p){
+  const passos = passosDoMeu(p);
+  if(!passos.length){ toast("Põe a duração em pelo menos um bloco"); return; }
+  const base = semAcento(p.t).replace(/[^\w]+/g,"_").replace(/^_+|_+$/g,"").slice(0,40);
+  try{
+    descarregar(`MEU_${base}.fit`, new Blob([fitTreino(p.t, passos)]));
+    toast("Copia-o para GARMIN/NEWFILES no aparelho");
+  }catch(e){ toast("Não consegui gerar o ficheiro"); }
+}
+
+/* para o Excel: as MACRO semanas do ciclo em curso, com a semana absoluta real */
+function planoExport(){
+  const ciclo = cicloNum(semanaAtual()), out = [];
+  for(let s = (ciclo-1)*MACRO+1; s <= ciclo*MACRO; s++) out.push(...daSemana(s));
+  return out.concat(S.meus.filter(p => !p.s));
+}
+
+const DURACOES = [
+  {k:"d5",  s:5,    r:"5 s"},   {k:"d15", s:15,  r:"15 s"},  {k:"d30", s:30,  r:"30 s"},
+  {k:"d60", s:60,   r:"1 min"}, {k:"d180",s:180, r:"3 min"}, {k:"d300",s:300, r:"5 min"},
+  {k:"d600",s:600,  r:"10 min"},{k:"d1200",s:1200,r:"20 min"},{k:"d3600",s:3600,r:"60 min"},
+];
+
+/* --- fórmulas --- */
+const r1 = v => Math.round(v*10)/10;
+const r2 = v => Math.round(v*100)/100;
+function metricas(s, ftp){
+  const sec = (+s.min||0)*60, pm = +s.pm||0, np = +s.np||pm;
+  const o = {kj: pm&&sec ? Math.round(pm*sec/1000) : null, estimado: !s.np && !!pm};
+  if(ftp && np && sec){
+    o.if = r2(np/ftp);
+    o.tss = Math.round((sec*np*(np/ftp))/(ftp*3600)*100);
+    o.vi = pm ? r2(np/pm) : null;
+  }
+  return o;
+}
+function serieCarga(sessoes, dias){
+  const porDia = {};
+  sessoes.forEach(s => { if(s.data) porDia[s.data] = (porDia[s.data]||0) + (+s.tss||0); });
+  const chaves = Object.keys(porDia).sort();
+  if(!chaves.length) return [];
+  const fim = hojeISO(), ini = chaves[0];
+  const out = []; let ctl = 0, atl = 0;
+  const kc = 1-Math.exp(-1/42), ka = 1-Math.exp(-1/7);
+  for(let d = new Date(ini+"T12:00:00"); isoDe(d) <= fim; d.setDate(d.getDate()+1)){
+    const k = isoDe(d), t = porDia[k]||0;
+    ctl += (t-ctl)*kc; atl += (t-atl)*ka;
+    out.push({data:k, tss:t, ctl:r1(ctl), atl:r1(atl), tsb:r1(ctl-atl)});
+  }
+  return dias ? out.slice(-dias) : out;
+}
+function lerTSB(v){
+  if(v === null || v === undefined) return {t:"—", c:"--ink-3"};
+  if(v > 15)  return {t:"Muito fresco — podes carregar", c:"--steel"};
+  if(v > 5)   return {t:"Fresco e pronto a render", c:"--good"};
+  if(v >= -10)return {t:"Equilibrado — segue o plano", c:"--good"};
+  if(v >= -25)return {t:"Em carga — normal num bloco forte", c:"--warn"};
+  return {t:"Fadiga alta — considera descarga", c:"--crit"};
+}
+
+/* --- datas --- */
+const hojeISO = () => isoDe(new Date());
+function isoDe(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dLocal(iso){ return iso ? new Date(iso+"T12:00:00") : null; }
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const SEMDIAS = ["dom","seg","ter","qua","qui","sex","sáb"];
+function fmtData(iso){ const d = dLocal(iso); return d ? `${d.getDate()} ${MESES[d.getMonth()]}` : "—"; }
+function fmtDataLonga(iso){ const d = dLocal(iso); return d ? `${SEMDIAS[d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()]} ${d.getFullYear()}` : "—"; }
+function diasEntre(a,b){ return Math.floor((dLocal(b)-dLocal(a))/864e5); }
+function segunda(iso){ const d = dLocal(iso); const w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return isoDe(d); }
+function somaDias(iso,n){ const d = dLocal(iso); d.setDate(d.getDate()+n); return isoDe(d); }
+function fmtMin(m){ const h = Math.floor(m/60), r = m%60; return h ? (r ? `${h}h${String(r).padStart(2,"0")}` : `${h}h`) : `${r} min`; }
+
+/* ============================================================
+   2. Estado + armazenamento
+   ============================================================ */
+const S = {
+  perfil:{}, sessoes:[], testes:[], recordes:{}, feitas:{}, meus:[], onde:{},
+  semArmazenamento:false, pronto:false, tab:"hoje", sub:"perfil",
+  pDe:null, pAte:null,   /* janela de semanas mostrada no Plano */
+};
+const el = id => document.getElementById(id);
+function toast(msg){
+  const t = el("toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("on"), 2600);
+}
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const FTP = () => +S.perfil.ftp || 0;
+const PESO = () => +S.perfil.peso || 0;
+const wattsDe = pct => FTP() ? Math.round(FTP()*pct/100) : null;
+
+/* ============ armazenamento ============
+   Sem conta e sem servidor: tudo o que registas fica guardado neste browser,
+   neste aparelho. O telemóvel tem o seu diário e o PC tem o dele — a ponte
+   entre os dois é a exportação em Dados › Cópia de segurança.
+
+   Os caminhos ("sessoes/<id>", "perfil/main") são os mesmos de antes, para o
+   resto da app não ter de saber onde é que isto está guardado. */
+const CHAVE = "diario-de-potencia-v1";
+
+function carregarLocal(){
+  let bruto = null;
+  try{ bruto = localStorage.getItem(CHAVE); }catch(e){ S.semArmazenamento = true; }
+  let d = {};
+  try{ d = bruto ? JSON.parse(bruto) : {}; }catch(e){ d = {}; }
+  aplicar(d);
+  S.pronto = true;
+}
+function aplicar(d){
+  S.perfil   = d.perfil   || {};
+  S.sessoes  = d.sessoes  || [];
+  S.testes   = d.testes   || [];
+  S.recordes = d.recordes || {};
+  S.feitas   = d.feitas   || {};
+  S.onde     = d.onde     || {};
+  S.meus     = (d.meus || []).map(m => ({custom:true, b:"Os meus treinos", ...m}));
+}
+function instantaneo(){
+  return {versao:1, gravadoEm:new Date().toISOString(), perfil:S.perfil, sessoes:S.sessoes,
+          testes:S.testes, recordes:S.recordes, feitas:S.feitas, onde:S.onde,
+          meus:S.meus.map(({custom, b, ...resto}) => resto)};
+}
+function guardarLocal(){
+  try{
+    localStorage.setItem(CHAVE, JSON.stringify(instantaneo()));
+    S.semArmazenamento = false;
+    return true;
+  }catch(e){
+    S.semArmazenamento = true;
+    toast("O browser não deixou guardar — faz uma cópia de segurança já");
+    return false;
+  }
+}
+/* gravar/apagar continuam a receber "coleção/id" como quando havia base de dados */
+async function gravar(c, dados){
+  const corte = c.indexOf("/"), col = c.slice(0, corte), id = c.slice(corte+1);
+  const porId = (lista, chave) => {
+    const i = lista.findIndex(x => x[chave] === id);
+    return i >= 0 ? i : -1;
+  };
+  if(col === "perfil") S.perfil = {...dados};
+  else if(col === "sessoes"){ const v = {id, ...dados}, i = porId(S.sessoes, "id");
+    if(i >= 0) S.sessoes[i] = v; else S.sessoes.push(v); }
+  else if(col === "testes"){ const v = {id, ...dados}, i = porId(S.testes, "id");
+    if(i >= 0) S.testes[i] = v; else S.testes.push(v); }
+  else if(col === "meus"){ const v = {cid:id, custom:true, b:"Os meus treinos", ...dados}, i = porId(S.meus, "cid");
+    if(i >= 0) S.meus[i] = v; else S.meus.push(v); }
+  else if(col === "recordes") S.recordes[id] = dados;
+  else if(col === "feitas")   S.feitas[id]   = dados;
+  else if(col === "onde")     S.onde[id]     = dados;
+  else return false;
+  const ok = guardarLocal();
+  pedirRender();
+  return ok;
+}
+async function apagar(c){
+  const corte = c.indexOf("/"), col = c.slice(0, corte), id = c.slice(corte+1);
+  if(col === "sessoes")       S.sessoes = S.sessoes.filter(x => x.id !== id);
+  else if(col === "testes")   S.testes  = S.testes.filter(x => x.id !== id);
+  else if(col === "meus")     S.meus    = S.meus.filter(x => x.cid !== id);
+  else if(col === "recordes") delete S.recordes[id];
+  else if(col === "feitas")   delete S.feitas[id];
+  else if(col === "onde")     delete S.onde[id];
+  else if(col === "perfil")   S.perfil  = {};
+  else return false;
+  guardarLocal();
+  pedirRender();
+  return true;
+}
+/* descarregar um ficheiro, sem depender de nada */
+function descarregar(nome, blob){
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = nome; a.style.display = "none";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+/* ============================================================
+   3. Gráficos (SVG em linha, com hover e tabela)
+   ============================================================ */
+let GID = 0;
+const ejes = {ml:44, mr:16, mt:12, mb:26};
+/* A largura do viewBox acompanha o ecrã. Com um viewBox fixo de 640 num
+   telemóvel de 375 px, tudo é reduzido a 54% e o texto dos eixos sairia a
+   menos de 6 px — ilegível. Assim 11 unidades continuam a ser 11 px reais. */
+function largGraf(){
+  const v = el("view");
+  const w = (v && v.clientWidth) || (window.innerWidth - 32) || 360;
+  return Math.max(286, Math.min(760, Math.round(w - 34)));
+}
+function eixoY(min,max,n){
+  if(max === min){ max = min+1; }
+  const span = max-min, passo = Math.pow(10, Math.floor(Math.log10(span/n)));
+  const cands = [1,2,2.5,5,10].map(m => m*passo);
+  const p = cands.find(c => span/c <= n) || cands[cands.length-1];
+  const lo = Math.floor(min/p)*p, hi = Math.ceil(max/p)*p, t = [];
+  for(let v = lo; v <= hi+1e-9; v += p) t.push(r2(v));
+  return {lo, hi, ticks:t};
+}
+function figura({titulo, sub, legenda, svg, tabela, nota}){
+  const id = "f"+(++GID);
+  return `<figure class="card" data-fig="${id}">
+    <figcaption><span class="t">${titulo}</span>${sub?`<span class="s">${sub}</span>`:""}</figcaption>
+    ${legenda?`<div class="legend">${legenda}</div>`:""}
+    <div class="chartbox">${svg}<div class="tt" data-tt></div></div>
+    ${nota?`<p class="tiny muted">${nota}</p>`:""}
+    ${tabela?`<details class="tbl"><summary>Ver os números em tabela</summary><div class="tw">${tabela}</div></details>`:""}
+  </figure>`;
+}
+function vazio(titulo, texto, acao){
+  return `<figure class="card"><figcaption><span class="t">${titulo}</span></figcaption>
+    <div class="empty"><span class="big">${texto}</span>${acao?`<span class="small">${acao}</span>`:""}</div></figure>`;
+}
+
+/* linha única ou múltipla, eixo x por índice */
+function grafLinhas({dados, series, rotulo, W=largGraf(), H=210, formato=(v=>v), yMin, areaPrimeira}){
+  const w = W-ejes.ml-ejes.mr, h = H-ejes.mt-ejes.mb;
+  let min = Infinity, max = -Infinity;
+  dados.forEach(d => series.forEach(s => { const v = d[s.k]; if(v!=null){ if(v<min)min=v; if(v>max)max=v; } }));
+  if(yMin != null) min = Math.min(min, yMin);
+  const ey = eixoY(min, max, 4), yy = v => ejes.mt + h - (v-ey.lo)/(ey.hi-ey.lo)*h;
+  const xx = i => dados.length === 1 ? ejes.ml+w/2 : ejes.ml + i*(w/(dados.length-1));
+  const grade = ey.ticks.map(t => `<line x1="${ejes.ml}" x2="${ejes.ml+w}" y1="${r1(yy(t))}" y2="${r1(yy(t))}" stroke="var(--grid)" stroke-width="1"/>
+    <text x="${ejes.ml-8}" y="${r1(yy(t))+4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--mono)">${formato(t)}</text>`).join("");
+  const passo = Math.max(1, Math.ceil(dados.length/6));
+  const eixoX = dados.map((d,i) => (i%passo===0 || i===dados.length-1)
+    ? `<text x="${r1(xx(i))}" y="${H-7}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${d.x}</text>` : "").join("");
+  let corpo = "";
+  series.forEach((s,si) => {
+    const pts = dados.map((d,i) => d[s.k]==null?null:[xx(i), yy(d[s.k])]).filter(Boolean);
+    if(!pts.length) return;
+    const linha = pts.map((p,i) => (i?"L":"M")+r1(p[0])+" "+r1(p[1])).join(" ");
+    if(areaPrimeira && si === 0)
+      corpo += `<path d="${linha} L${r1(pts[pts.length-1][0])} ${r1(yy(ey.lo))} L${r1(pts[0][0])} ${r1(yy(ey.lo))} Z" fill="var(${s.cor})" opacity=".09"/>`;
+    corpo += `<path d="${linha}" fill="none" stroke="var(${s.cor})" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const u = pts[pts.length-1];
+    corpo += `<circle cx="${r1(u[0])}" cy="${r1(u[1])}" r="4.5" fill="var(${s.cor})" stroke="var(--surface)" stroke-width="2"/>`;
+    if(dados.length <= 14) pts.slice(0,-1).forEach(p =>
+      corpo += `<circle cx="${r1(p[0])}" cy="${r1(p[1])}" r="4" fill="var(--surface)" stroke="var(${s.cor})" stroke-width="2"/>`);
+    corpo += `<text x="${r1(u[0])-8}" y="${r1(u[1])-10}" text-anchor="end" font-size="12" font-weight="600"
+      fill="var(${s.cor})" font-family="var(--mono)" stroke="var(--surface)" stroke-width="3.5"
+      paint-order="stroke" stroke-linejoin="round">${formato(dados[dados.length-1][s.k])}</text>`;
+  });
+  const hit = dados.map((d,i) => `<rect x="${r1(xx(i)-w/(dados.length*2)-2)}" y="${ejes.mt}" width="${r1(w/dados.length+4)}" height="${h}"
+    fill="transparent" data-i="${i}" data-cx="${r1(xx(i))}"/>`).join("");
+  const dadosTT = dados.map(d => ({d:d.rot||d.x, vals:series.map(s => [s.nome, d[s.k]==null?"—":formato(d[s.k])+(s.un||""), s.cor])}));
+  return {svg:`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${rotulo}" data-tt-src='${esc(JSON.stringify(dadosTT))}'>
+    ${grade}${eixoX}
+    <line x1="${ejes.ml}" x2="${ejes.ml}" y1="${ejes.mt}" y2="${ejes.mt+h}" stroke="var(--line)" stroke-width="1"/>
+    <g data-cross hidden><line y1="${ejes.mt}" y2="${ejes.mt+h}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3"/></g>
+    ${corpo}<g data-hits>${hit}</g></svg>`};
+}
+/* barras verticais, opcionalmente divergentes a partir do zero */
+function grafBarras({dados, chave, cor, corNeg, W=largGraf(), H=190, formato=(v=>v), rotulo, media}){
+  const w = W-ejes.ml-ejes.mr, h = H-ejes.mt-ejes.mb;
+  const vals = dados.map(d => +d[chave]||0);
+  const ey = eixoY(Math.min(0,...vals), Math.max(0,...vals), 4);
+  const yy = v => ejes.mt + h - (v-ey.lo)/(ey.hi-ey.lo)*h;
+  const bw = Math.max(2, w/dados.length - 2), y0 = yy(0);
+  const grade = ey.ticks.map(t => `<line x1="${ejes.ml}" x2="${ejes.ml+w}" y1="${r1(yy(t))}" y2="${r1(yy(t))}"
+      stroke="${t===0?"var(--line)":"var(--grid)"}" stroke-width="1"/>
+    <text x="${ejes.ml-8}" y="${r1(yy(t))+4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--mono)">${formato(t)}</text>`).join("");
+  const barras = dados.map((d,i) => {
+    const v = +d[chave]||0, x = ejes.ml + i*(w/dados.length) + 1, y = v>=0?yy(v):y0, alt = Math.max(1, Math.abs(yy(v)-y0));
+    const c = v<0 && corNeg ? corNeg : cor;
+    return `<rect x="${r1(x)}" y="${r1(y)}" width="${r1(bw)}" height="${r1(alt)}" rx="3" fill="var(${c})"/>`;
+  }).join("");
+  const passo = Math.max(1, Math.ceil(dados.length/6));
+  const eixoX = dados.map((d,i) => (i%passo===0 || i===dados.length-1)
+    ? `<text x="${r1(ejes.ml+i*(w/dados.length)+bw/2+1)}" y="${H-7}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${d.x}</text>` : "").join("");
+  const linhaMedia = media!=null ? `<line x1="${ejes.ml}" x2="${ejes.ml+w}" y1="${r1(yy(media))}" y2="${r1(yy(media))}"
+      stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="${ejes.ml+w}" y="${r1(yy(media))-7}" text-anchor="end" font-size="11" fill="var(--ink-2)" font-family="var(--mono)"
+      stroke="var(--surface)" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">média ${formato(media)}</text>` : "";
+  const hit = dados.map((d,i) => `<rect x="${r1(ejes.ml+i*(w/dados.length))}" y="${ejes.mt}" width="${r1(w/dados.length)}" height="${h}"
+    fill="transparent" data-i="${i}" data-cx="${r1(ejes.ml+i*(w/dados.length)+bw/2+1)}"/>`).join("");
+  const dadosTT = dados.map(d => ({d:d.rot||d.x, vals:[[d.nome||"Valor", formato(+d[chave]||0)+(d.un||""), (+d[chave]<0&&corNeg)?corNeg:cor]]}));
+  return {svg:`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${rotulo}" data-tt-src='${esc(JSON.stringify(dadosTT))}'>
+    ${grade}${eixoX}${linhaMedia}${barras}<g data-hits>${hit}</g></svg>`};
+}
+/* curva de potência: eixo x logarítmico em segundos */
+function grafCurva({pontos, W=largGraf(), H=215}){
+  const w = W-ejes.ml-ejes.mr, h = H-ejes.mt-ejes.mb;
+  const lx = s => Math.log10(s), x0 = lx(5), x1 = lx(3600);
+  const xx = s => ejes.ml + (lx(s)-x0)/(x1-x0)*w;
+  const ey = eixoY(0, Math.max(...pontos.map(p=>p.w)), 4);
+  const yy = v => ejes.mt + h - (v-ey.lo)/(ey.hi-ey.lo)*h;
+  const grade = ey.ticks.map(t => `<line x1="${ejes.ml}" x2="${ejes.ml+w}" y1="${r1(yy(t))}" y2="${r1(yy(t))}" stroke="var(--grid)" stroke-width="1"/>
+    <text x="${ejes.ml-8}" y="${r1(yy(t))+4}" text-anchor="end" font-size="11" fill="var(--ink-3)" font-family="var(--mono)">${t}</text>`).join("");
+  const marcas = [[5,"5 s"],[30,"30 s"],[60,"1 min"],[300,"5 min"],[1200,"20 min"],[3600,"60 min"]];
+  const eixoX = marcas.map(([s,r]) => `<text x="${r1(xx(s))}" y="${H-7}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${r}</text>`).join("");
+  const linha = pontos.map((p,i) => (i?"L":"M")+r1(xx(p.s))+" "+r1(yy(p.w))).join(" ");
+  const pts = pontos.map(p => `<circle cx="${r1(xx(p.s))}" cy="${r1(yy(p.w))}" r="4.5" fill="var(--surface)" stroke="var(--s2)" stroke-width="2"/>`).join("");
+  const hit = pontos.map((p,i) => `<rect x="${r1(xx(p.s)-14)}" y="${ejes.mt}" width="28" height="${h}" fill="transparent" data-i="${i}" data-cx="${r1(xx(p.s))}"/>`).join("");
+  const dadosTT = pontos.map(p => ({d:p.r, vals:[["Melhor potência", p.w+" W", "--s2"], ["W/kg", PESO()?r2(p.w/PESO()):"—", "--ink-3"], ["Data", fmtData(p.data)||"—", "--ink-3"]]}));
+  return {svg:`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Curva de potência" data-tt-src='${esc(JSON.stringify(dadosTT))}'>
+    ${grade}${eixoX}
+    <line x1="${ejes.ml}" x2="${ejes.ml}" y1="${ejes.mt}" y2="${ejes.mt+h}" stroke="var(--line)" stroke-width="1"/>
+    <path d="${linha}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round"/>${pts}
+    <g data-hits>${hit}</g></svg>`};
+}
+/* liga rato e toque a todos os gráficos presentes */
+function ligarTooltips(raiz){
+  raiz.querySelectorAll("svg.chart[data-tt-src]").forEach(svg => {
+    const caixa = svg.closest(".chartbox"), tt = caixa && caixa.querySelector("[data-tt]");
+    if(!tt) return;
+    let dados; try{ dados = JSON.parse(svg.getAttribute("data-tt-src")); }catch(e){ return; }
+    const cross = svg.querySelector("[data-cross]");
+    const esconder = () => { tt.classList.remove("on"); if(cross) cross.hidden = true; };
+    const mostrar = (alvo, clientY) => {
+      const i = +alvo.getAttribute("data-i"), d = dados[i]; if(!d) return;
+      tt.innerHTML = `<div class="d">${esc(d.d)}</div>` + d.vals.map(v =>
+        `<div class="r"><span style="color:var(${v[2]})">${esc(v[0])}</span><b>${esc(v[1])}</b></div>`).join("");
+      tt.classList.add("on");
+      const cx = +alvo.getAttribute("data-cx"), vb = svg.viewBox.baseVal;
+      const px = cx*(caixa.clientWidth/vb.width), lar = tt.offsetWidth;
+      tt.style.left = Math.max(2, Math.min(caixa.clientWidth-lar-2, px-lar/2))+"px";
+      /* no telemóvel o dedo tapa o balão: se o toque foi na metade de cima, manda-o para baixo */
+      const r = caixa.getBoundingClientRect();
+      const emCima = clientY != null && (clientY-r.top) < r.height/2;
+      tt.style.top = emCima ? "" : "0px";
+      tt.style.bottom = emCima ? "0px" : "";
+      if(cross){ cross.hidden = false; cross.firstElementChild.setAttribute("x1", cx); cross.firstElementChild.setAttribute("x2", cx); }
+    };
+    /* arrastar o dedo ao longo do gráfico percorre os pontos */
+    const doPonto = ev => {
+      const n = document.elementFromPoint(ev.clientX, ev.clientY);
+      const alvo = n && n.closest && n.closest("[data-i]");
+      if(alvo && svg.contains(alvo)) mostrar(alvo, ev.clientY);
+    };
+    svg.querySelectorAll("[data-hits] rect").forEach(r =>
+      r.addEventListener("pointerenter", ev => { if(ev.pointerType === "mouse") mostrar(r, ev.clientY); }));
+    svg.addEventListener("pointerdown", ev => { svg.dataset.ativo = "1"; doPonto(ev); });
+    svg.addEventListener("pointermove", ev => { if(svg.dataset.ativo === "1") doPonto(ev); });
+    svg.addEventListener("pointerup", () => { delete svg.dataset.ativo; });
+    svg.addEventListener("pointercancel", () => { delete svg.dataset.ativo; esconder(); });
+    svg.addEventListener("pointerleave", ev => { if(ev.pointerType === "mouse") esconder(); });
+  });
+}
+/* um único ouvinte: ao rolar a página, os balões abertos desaparecem */
+window.addEventListener("scroll", () => {
+  document.querySelectorAll(".tt.on").forEach(t => {
+    t.classList.remove("on");
+    const caixa = t.closest(".chartbox"), g = caixa && caixa.querySelector("[data-cross]");
+    if(g) g.hidden = true;
+  });
+}, {passive:true});
+
+/* ============================================================
+   4. Vistas
+   ============================================================ */
+const TABS = [
+  {k:"hoje",     n:"Hoje",     ic:"◉"},
+  {k:"plano",    n:"Plano",    ic:"▦"},
+  {k:"registar", n:"Registar", ic:"＋"},
+  {k:"evolucao", n:"Evolução", ic:"◢"},
+  {k:"dados",    n:"Dados",    ic:"⚙"},
+];
+
+/* sem limite superior: o plano acompanha-te enquanto treinares */
+function semanaAtual(){
+  const ini = S.perfil.inicioPlano; if(!ini) return 1;
+  return Math.max(1, Math.floor(diasEntre(segunda(ini), hojeISO())/7)+1);
+}
+/* segunda-feira em que começa uma semana absoluta do plano */
+function segundaDaSemana(sAbs){
+  const ini = S.perfil.inicioPlano;
+  return ini ? somaDias(segunda(ini), (sAbs-1)*7) : null;
+}
+function statsJanela(dias){
+  const limite = somaDias(hojeISO(), -dias+1);
+  const ss = S.sessoes.filter(s => s.data >= limite);
+  return {n:ss.length, tss:ss.reduce((a,s)=>a+(+s.tss||0),0), min:ss.reduce((a,s)=>a+(+s.min||0),0), km:ss.reduce((a,s)=>a+(+s.km||0),0)};
+}
+const temExemplos = () => S.sessoes.some(s=>s.exemplo) || S.testes.some(t=>t.exemplo) || Object.values(S.recordes).some(r=>r.exemplo);
+
+function tileHTML(k,v,u,n){ return `<div class="tile"><div class="k">${k}</div><div class="v">${v}${u?`<span class="u"> ${u}</span>`:""}</div>${n?`<div class="n">${n}</div>`:""}</div>`; }
+
+function pilulaZona(z){ const Z = ZONAS.find(x=>x.z===z)||ZONAS[1]; return `<span class="pill"><span class="dot" style="background:var(${Z.cor})"></span>${Z.z} ${Z.nome}</span>`; }
+
+/* ---- prioridade dentro da semana ----
+   Numa semana que não corre bem, a ordem a salvar é: a sessão de qualidade (ou
+   o teste, se o houver), depois o longo, e só então o dia fácil — que existe
+   para os outros dois correrem bem e é o primeiro a cair. */
+const ehTeste = p => /^Teste de FTP/.test(p.t);
+function prioDe(p){
+  if(!p.sAbs) return 3;
+  const temTeste = daSemana(p.sAbs).some(ehTeste);
+  if(temTeste) return ehTeste(p) ? 1 : (p.d === "L" ? 2 : 3);
+  return p.d === "A" ? 1 : p.d === "L" ? 2 : 3;
+}
+const PRIO = {1:["essencial","--accent"], 2:["importante","--steel"], 3:["se der","--ink-3"]};
+function selo(p){
+  const [txt, cor] = PRIO[prioDe(p)];
+  return `<span class="prio" style="--c:var(${cor})">${txt}</span>`;
+}
+
+/* ---- rolo ou fora: botão de dois estados em cada treino ---- */
+function ondeHTML(p){
+  const id = planoId(p), dentro = DENTRO(localDe(p));
+  return `<div class="onde" role="group" aria-label="Onde vais fazer este treino">
+    <button type="button" class="${dentro?"on":""}" data-onde="${id}" data-loc="Rolo">Rolo</button>
+    <button type="button" class="${dentro?"":"on"}" data-onde="${id}" data-loc="Estrada">Fora</button>
+  </div>`;
+}
+/* qual o ficheiro a carregar, conforme o sítio escolhido */
+function ficheiroHTML(p){
+  const dentro = DENTRO(localDe(p)), zwo = ficheiroRolo(p), fit = ficheiroGarmin(p);
+  if(dentro && zwo) return `<div class="garmin"><span class="et">No MyWhoosh</span><code>${esc(zwo)}.zwo</code>
+    <span class="tiny muted">${fit?`ou <code>${esc(fit)}</code> no Garmin`:"ou segue os blocos à mão"}</span></div>`;
+  if(fit) return `<div class="garmin"><span class="et">No Garmin, carrega</span><code>${esc(fit)}</code>
+    <span class="tiny muted">os watts saem do FTP que tiveres no aparelho</span></div>`;
+  return "";
+}
+function alvosHTML(p){
+  return p.alvos.map(a => {
+    if(a.length === 2 && typeof a[1] === "string") return `<span class="chip">${esc(a[0])} <b>${esc(a[1])}</b></span>`;
+    if(a.length === 1) return `<span class="chip">${esc(a[0])}</span>`;
+    const w1 = wattsDe(a[1]), w2 = wattsDe(a[2]);
+    const watts = w1 ? (w1===w2 ? `${w1} W` : `${w1}–${w2} W`) : `${a[1]}–${a[2]}% FTP`;
+    return `<span class="chip">${esc(a[0])} <b>${watts}</b></span>`;
+  }).join("");
+}
+function sessaoHTML(p, {destaque=false, aberta=false}={}){
+  const id = planoId(p), reg = S.feitas[id], saltado = !!(reg && reg.saltado), feita = !!reg && !saltado;
+  const Z = ZONAS.find(x=>x.z===p.z)||ZONAS[1], nota = notaLocal(p, localDe(p));
+  return `<article class="sess${destaque?" hoje":""}${feita?" done":""}${saltado?" saltada":""}">
+    <div class="hd">
+      <span class="zb" style="background:var(${Z.cor})"></span>
+      <div style="flex:1;min-width:0">
+        <div class="ti">${esc(p.t)}</div>
+        <div class="meta">
+          <span class="pill">${DIAS[p.d]}</span>
+          ${p.sAbs?selo(p):""}
+          <span class="pill">${fmtMin(p.min)}</span>
+          <span class="pill">${p.tss} TSS</span>
+          ${pilulaZona(p.z)}
+          ${p.custom?'<span class="badge ex">meu treino</span>':""}
+          ${feita?'<span class="badge ok">feito</span>':""}
+          ${saltado?'<span class="badge">saltado</span>':""}
+        </div>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="escolha">${ondeHTML(p)}<span class="tiny muted">plano: ${esc(p.loc)}</span></div>
+      ${aberta?`${nota?`<p class="tiny muted">${esc(nota)}</p>`:""}${ficheiroHTML(p)}
+        <div class="alvos">${alvosHTML(p)}</div>${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}`:""}
+      <div class="row">
+        ${aberta?"":`<button class="btn sm ghost" data-abrir="${id}">Ver o treino</button>`}
+        <button class="btn sm ${feita?"":"pri"}" data-feita="${id}">${feita?"Desmarcar":"Marcar como feito"}</button>
+        <button class="btn sm" data-registar="${id}">Registar valores</button>
+        <button class="btn sm ghost" data-saltar="${id}">${saltado?"Repor":"Saltar"}</button>
+        ${p.custom?`<button class="btn sm ghost" data-fit="${esc(p.cid)}">Garmin .fit</button>
+          <button class="btn sm ghost" data-editar="${id}">Editar</button>
+          <button class="btn sm danger" data-apagar-meu="${esc(p.cid)}">Apagar</button>`:""}
+      </div>
+    </div>
+  </article>`;
+}
+
+/* O bloco que define o treino — é o número que vais seguir na bicicleta.
+   Aquecimento, arrefecimento e recuperação ficam de fora: num teste de rampa
+   o bloco mais intenso em percentagem é o aquecimento, e anunciá-lo seria mentir. */
+const APOIO = /^(aquecimento|arrefecer|recupera)/i;
+function blocoPrincipal(p){
+  const al = p.alvos || [];
+  const com = al.filter(a => a.length >= 3 && !APOIO.test(a[0]));
+  if(com.length) return {tipo:"pct", a:com.reduce((m,a) => ((a[1]+a[2])/2 > (m[1]+m[2])/2 ? a : m))};
+  const txt = al.find(a => a.length <= 2 && !APOIO.test(a[0]));
+  return txt ? {tipo:"texto", a:txt} : null;
+}
+/* cartão grande do treino que se segue */
+function heroHTML(p){
+  const id = planoId(p), reg = S.feitas[id], saltado = !!(reg && reg.saltado), feita = !!reg && !saltado;
+  const Z = ZONAS.find(x=>x.z===p.z)||ZONAS[1], loc = localDe(p), nota = notaLocal(p, loc);
+  const bp = blocoPrincipal(p);
+  let painel = "";
+  if(bp && bp.tipo === "pct"){
+    const bl = bp.a, w1 = wattsDe(bl[1]), w2 = wattsDe(bl[2]);
+    painel = `<div class="watts">
+      <span class="big">${w1 ? (w1===w2?w1:`${w1}–${w2}`) : `${bl[1]}–${bl[2]}`}</span>
+      <span class="un">${w1?"W":"% FTP"}</span>
+      <span class="lab">${esc(bl[0])}${w1?` · ${bl[1]}–${bl[2]}% do teu FTP`:" — preenche o FTP para veres os watts"}</span></div>`;
+  } else if(bp){
+    const comNome = bp.a.length === 2;
+    painel = `<div class="watts">
+      <span class="big" style="font-size:1.4rem;line-height:1.2">${esc(comNome?bp.a[1]:bp.a[0])}</span>
+      <span class="lab">${comNome?esc(bp.a[0])+" — ":""}neste treino o número é o que vais medir, não o que vais seguir</span></div>`;
+  }
+  return `<article class="hero${feita?" done":""}">
+    <div class="cab">
+      <span class="zb" style="background:var(${Z.cor})"></span>
+      <div style="flex:1;min-width:0">
+        <div class="eyebrow">${DIAS[p.d]}${feita?" · já feito":saltado?" · saltado":""}</div>
+        <div class="ti">${esc(p.t)}</div>
+        <div class="meta">
+          ${selo(p)}<span class="pill">${fmtMin(p.min)}</span>
+          <span class="pill">${p.tss} TSS</span>${pilulaZona(p.z)}
+          ${p.custom?'<span class="badge ex">meu treino</span>':""}
+        </div>
+      </div>
+    </div>
+    <div class="escolha">${ondeHTML(p)}<span class="tiny muted">o plano sugeria ${esc(p.loc)}</span></div>
+    ${nota?`<p class="tiny muted" style="margin-top:-4px">${esc(nota)}</p>`:""}
+    ${painel}
+    ${ficheiroHTML(p)}
+    <div class="alvos">${alvosHTML(p)}</div>
+    ${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}
+    <div class="acoes">
+      <button class="btn grande ${feita?"":"pri"}" data-feita="${id}">${feita?"Desmarcar":"Marcar como feito"}</button>
+      <button class="btn grande" data-registar="${id}">Registar valores</button>
+    </div>
+    <div class="row"><button class="btn sm ghost wide" data-saltar="${id}">${saltado?"Afinal faço este":"Saltar — passar ao próximo"}</button></div>
+  </article>`;
+}
+
+/* ---- HOJE ---- */
+function vistaHoje(){
+  const sem = semanaAtual(), doSem = daSemana(sem);
+  const prox = doSem.find(p => !S.feitas[planoId(p)]);
+  const carga = serieCarga(S.sessoes);
+  const u = carga[carga.length-1] || null;
+  const j7 = statsJanela(7), ult = [...S.testes].sort((a,b)=>(a.data<b.data?1:-1))[0];
+  const tsb = u ? u.tsb : null, lt = lerTSB(tsb);
+  const partes = [];
+
+  if(S.semArmazenamento){
+    partes.push(`<div class="banner"><span class="ic">▲</span><div>
+      <b>Este browser não está a guardar nada</b>
+      Pode ser navegação privada, ou o armazenamento estar cheio ou bloqueado. Sai do modo privado,
+      ou liberta espaço, senão perdes tudo ao fechar.
+    </div></div>`);
+  }
+  if(S.sessoes.length >= 10 && !S.perfil.copiaEm){
+    partes.push(`<div class="banner info"><span class="ic">◷</span><div>
+      <b>Faz uma cópia de segurança</b>
+      Já tens ${S.sessoes.length} treinos guardados só neste aparelho. Se limpares os dados do browser, vão-se.
+      <div class="row" style="margin-top:9px"><button class="btn sm" data-ir-sub="excel">Guardar uma cópia</button></div>
+    </div></div>`);
+  }
+  if(!FTP() || !PESO()){
+    partes.push(`<div class="banner"><span class="ic">▲</span><div>
+      <b>Falta o essencial: FTP e peso</b>
+      Sem FTP as zonas não existem e o TSS não pode ser calculado. Se ainda não testaste, o primeiro treino do plano é precisamente o teste.
+      <div class="row" style="margin-top:9px"><button class="btn sm pri" data-ir="dados">Preencher perfil</button><button class="btn sm" data-ir="plano">Ver o teste</button></div>
+    </div></div>`);
+  }
+  if(temExemplos()) partes.push(`<div class="banner info"><span class="ic">ℹ</span><div>
+    <b>Estes são dados de exemplo</b>
+    Servem só para mostrares a app a funcionar. Apaga-os quando registares o teu primeiro treino a sério.
+    <div class="row" style="margin-top:9px"><button class="btn sm" data-limpar-ex>Apagar os exemplos</button></div></div></div>`);
+
+  const ciclo = cicloNum(sem), base = semBase(sem);
+  partes.push(`<div>
+    <p class="eyebrow">${fmtDataLonga(hojeISO())}</p>
+    <h1>Semana ${sem} · ${esc(doSem[0]?doSem[0].b:"")}</h1>
+    <p class="muted small" style="margin-top:4px">${esc(tituloCiclo(ciclo))} · ${base}.ª de ${MACRO} semanas do ciclo.
+      O plano não acaba: a seguir à ${MACRO}.ª recomeça com o FTP que tiveres então.</p>
+    ${S.perfil.inicioPlano ? "" : `<div class="row" style="margin-top:9px">
+      <button class="btn sm pri" data-ir-sub="perfil">Define a data de início</button></div>`}
+  </div>`);
+
+  /* o treino primeiro: é para isto que a app se abre */
+  partes.push(`<div><div class="wk"><span class="n">A seguir</span><span class="l"></span></div>
+    ${prox ? heroHTML(prox) : `<div class="empty"><span class="big">Semana fechada</span>
+      <span class="small">Os treinos desta semana estão todos marcados. A semana ${sem+1} começa na próxima segunda — descansa até lá.</span></div>`}</div>`);
+
+  /* ordem de salvamento quando a semana não dá para tudo */
+  const porFazer = doSem.filter(p => !S.feitas[planoId(p)]).sort((a,b) => prioDe(a)-prioDe(b));
+  if(porFazer.length > 1) partes.push(`<div class="banner info"><span class="ic">◷</span><div>
+    <b>Se não der para os três</b>
+    Faz por esta ordem: ${porFazer.map((p,i) => `${i?"→ ":""}<b style="display:inline">${esc(p.t)}</b>`).join(" ")}.
+    O dia fácil é o primeiro a cair — existe para os outros dois correrem bem, não ao contrário.
+    Saltar um treino não é perder a semana; saltar sempre o mesmo é.</div></div>`);
+
+  partes.push(`<div class="tiles">
+    ${tileHTML("FTP", FTP()||"—", FTP()?"W":"", FTP()&&PESO() ? `${r2(FTP()/PESO())} W/kg` : (ult?`teste de ${fmtData(ult.data)}`:"ainda sem teste"))}
+    ${tileHTML("Forma (CTL)", u?Math.round(u.ctl):"—", "", "média de carga a 42 dias")}
+    ${tileHTML("Frescura (TSB)", u?(u.tsb>0?"+":"")+Math.round(u.tsb):"—", "", `<span style="color:var(${lt.c})">${lt.t}</span>`)}
+    ${tileHTML("Últimos 7 dias", j7.tss, "TSS", `${j7.n} ${j7.n===1?"sessão":"sessões"} · ${fmtMin(j7.min)}`)}
+  </div>`);
+
+  const resto = doSem.filter(p => p !== prox);
+  if(resto.length) partes.push(`<div><div class="wk"><span class="n">Resto da semana</span><span class="l"></span></div>
+    <div style="display:flex;flex-direction:column;gap:9px">${resto.map(p=>sessaoHTML(p)).join("")}</div></div>`);
+
+  if(S.sessoes.length){
+    const recentes = [...S.sessoes].sort((a,b)=>(a.data<b.data?1:-1)).slice(0,5);
+    partes.push(`<div class="card"><h3>Últimos treinos registados</h3>
+      <div class="hist" style="margin-top:6px">${recentes.map(s=>`<div class="it">
+        <div class="q"><div class="t">${esc(s.titulo||"Treino")}${s.exemplo?' <span class="badge ex">ex.</span>':""}</div>
+          <div class="s">${fmtData(s.data)} · ${fmtMin(+s.min||0)}${s.np||s.pm?` · ${s.np||s.pm} W`:""}${s.if!=null?` · IF ${r2(s.if)}`:""}</div></div>
+        <div class="v">${s.tss||"—"}<em>TSS</em></div></div>`).join("")}</div>
+      <div class="row" style="margin-top:12px"><button class="btn sm ghost wide" data-ir="evolucao">Ver a evolução</button></div></div>`);
+  }
+  return partes.join("");
+}
+
+/* ---- PLANO ---- */
+/* Mostra uma janela de semanas em volta da atual, não as 26 de uma vez:
+   no telemóvel, 78 treinos abertos seriam um rolo interminável. */
+function janelaPlano(sem){
+  if(S.pDe == null || sem < S.pDe || sem > S.pAte){ S.pDe = Math.max(1, sem-1); S.pAte = sem+7; }
+  return [S.pDe, S.pAte];
+}
+function vistaPlano(){
+  const sem = semanaAtual(), ciclo = cicloNum(sem);
+  const iniC = (ciclo-1)*MACRO + 1, fimC = ciclo*MACRO;
+  let totalC = 0, feitosC = 0;
+  for(let s = iniC; s <= fimC; s++) daSemana(s).forEach(p => { totalC++; if(S.feitas[planoId(p)]) feitosC++; });
+  const pct = Math.round(feitosC/Math.max(1,totalC)*100);
+  const biblioteca = S.meus.filter(p => !p.s);
+
+  const partes = [`<div><h1>Plano contínuo</h1>
+    <p class="muted small" style="margin-top:4px">${MACRO} semanas que se repetem sem fim — três treinos por semana, dois à semana e o longo ao fim de semana.
+    Os watts saem do teu FTP${FTP()?` de ${FTP()} W`:" — preenche-o nos Dados"}, por isso a mesma semana vale mais watts a cada volta.
+    Não há nada para reiniciar: depois da semana ${MACRO} vem a ${MACRO+1}, que é a semana 1 do ciclo seguinte.</p></div>
+  <div class="card">
+    <div class="eyebrow">${esc(tituloCiclo(ciclo))}</div>
+    <div style="font-family:var(--disp);font-size:1.3rem;margin-top:2px">${feitosC} de ${totalC} treinos feitos neste ciclo</div>
+    <div style="margin-top:11px;height:9px;border-radius:5px;background:var(--surface-2);overflow:hidden">
+      <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:5px"></div></div>
+    <div class="row" style="margin-top:12px">
+      <span class="pill on">estás na semana ${sem}</span>
+      <span class="pill">${semBase(sem)} de ${MACRO} do ciclo</span>
+      ${S.perfil.inicioPlano?`<span class="pill">início ${fmtData(S.perfil.inicioPlano)}</span>`:""}</div>
+    <div class="row" style="margin-top:11px">
+      <button class="btn sm" data-ir-sub="perfil">Ajustar a semana</button>
+      <button class="btn sm pri" data-ir-sub="meus">Criar um treino</button></div></div>`];
+
+  if(biblioteca.length) partes.push(`<div>
+    <div class="wk"><span class="n">A minha biblioteca</span><span class="pill">${biblioteca.length} ${biblioteca.length===1?"treino":"treinos"}</span><span class="l"></span></div>
+    <p class="tiny muted" style="margin:-2px 0 8px">Treinos teus sem semana atribuída — usa-os quando te apetecer, em vez do que está no plano.</p>
+    <div style="display:flex;flex-direction:column;gap:9px">${biblioteca.map(p=>sessaoHTML(p,{aberta:true})).join("")}</div></div>`);
+
+  const [de, ate] = janelaPlano(sem);
+  if(de > 1) partes.push(`<div class="row"><button class="btn sm ghost wide" data-plano-antes>↑ Semanas anteriores</button></div>`);
+  for(let s = de; s <= ate; s++){
+    const ss = daSemana(s); if(!ss.length) continue;
+    const atual = s === sem, feitos = ss.filter(p => S.feitas[planoId(p)]).length;
+    const seg = segundaDaSemana(s), novoCiclo = semBase(s) === 1;
+    partes.push(`<details class="sem${atual?" agora":""}" data-sem="${s}"${atual?" open":""}>
+      <summary>
+        <span class="nm">Semana ${s}</span>
+        <span class="pill${atual?" on":""}">${esc(ss[0].b)}</span>
+        ${feitos?`<span class="badge ok">${feitos}/${ss.length}</span>`:""}
+        <span class="ch">▾</span>
+      </summary>
+      <div class="conteudo">
+        <div class="row" style="gap:6px">
+          ${seg?`<span class="pill">semana de ${fmtData(seg)}</span>`:""}
+          <span class="pill">${ss.reduce((a,p)=>a+(+p.tss||0),0)} TSS</span>
+          <span class="pill">${fmtMin(ss.reduce((a,p)=>a+(+p.min||0),0))}</span>
+          ${novoCiclo?`<span class="pill on">começa o ciclo ${cicloNum(s)}</span>`:""}</div>
+        ${ss.map(p=>sessaoHTML(p,{aberta:atual})).join("")}
+      </div></details>`);
+  }
+  partes.push(`<div class="row"><button class="btn sm ghost wide" data-plano-depois>↓ Mais semanas</button></div>`);
+  return partes.join("");
+}
+
+/* ---- REGISTAR (formulário estático, nunca re-renderizado) ---- */
+function formRegistar(){
+  return `<div><h1>Registar</h1><p class="muted small" style="margin-top:4px">Cinco campos chegam: data, treino, duração e as duas potências.
+    Tudo o resto é opcional e está dobrado lá dentro.</p></div>
+  <form class="card" id="fSessao" autocomplete="off">
+    <h3>Treino</h3>
+    <label class="f" style="margin-top:10px">Qual do plano<select id="rPlano"><option value="">— avulso —</option></select></label>
+    <div class="grid2" style="margin-top:10px">
+      <label class="f">Data<input type="date" id="rData" required></label>
+      <label class="f">Duração (min)<input type="number" id="rMin" inputmode="numeric" min="1" max="900" step="1" required></label>
+      <label class="f">Potência média (W)<input type="number" id="rPm" inputmode="numeric" min="0" max="800" step="1"></label>
+      <label class="f">Potência normalizada NP<input type="number" id="rNp" inputmode="numeric" min="0" max="800" step="1"></label>
+    </div>
+    <div id="rPrev" class="row" style="margin-top:12px"></div>
+    <details class="mais" style="margin-top:12px"><summary>Título, local, FC, cadência, notas</summary>
+      <div class="conteudo">
+        <div class="grid2">
+          <label class="f">Título<input type="text" id="rTitulo" placeholder="Sweet spot 3×10"></label>
+          <label class="f">Onde<select id="rLocal"><option>Estrada</option><option>Rolo</option><option>Montanha</option></select></label>
+          <label class="f">Distância (km)<input type="number" id="rKm" inputmode="decimal" min="0" max="500" step="0.1"></label>
+          <label class="f">Cadência média<input type="number" id="rCad" inputmode="numeric" min="0" max="160" step="1"></label>
+          <label class="f">FC média<input type="number" id="rFcm" inputmode="numeric" min="0" max="240" step="1"></label>
+          <label class="f">FC máxima<input type="number" id="rFcx" inputmode="numeric" min="0" max="240" step="1"></label>
+          <label class="f">Esforço sentido (RPE 1–10)<input type="number" id="rRpe" inputmode="numeric" min="1" max="10" step="1"></label>
+        </div>
+        <label class="f" style="margin-top:10px">Notas<textarea id="rNotas" placeholder="Como correu, o que doeu, o tempo que estava…"></textarea></label>
+      </div></details>
+    <div class="row" style="margin-top:13px"><button type="submit" class="btn pri grande wide">Guardar treino</button></div>
+    <div class="row" style="margin-top:8px"><button type="reset" class="btn sm ghost wide">Limpar o formulário</button></div>
+    <p class="tiny muted" style="margin-top:9px">Sem NP, o TSS é calculado a partir da potência média e fica marcado como estimado — sai ligeiramente abaixo do real nas saídas irregulares.</p>
+  </form>
+
+  <form class="card" id="fTeste" autocomplete="off">
+    <h3>Teste de FTP</h3>
+    <p class="small muted" style="margin-top:4px">O teste atualiza o FTP e, com ele, todas as zonas e os TSS futuros.</p>
+    <div class="grid2" style="margin-top:10px">
+      <label class="f">Data<input type="date" id="tData" required></label>
+      <label class="f">Método<select id="tMetodo">
+        <option value="rampa">Rampa (último minuto × 0,75)</option>
+        <option value="20min">20 minutos (média × 0,95)</option>
+        <option value="8min">2×8 minutos (média × 0,90)</option>
+        <option value="direto">FTP já calculado</option></select></label>
+      <label class="f">Valor medido (W)<input type="number" id="tBruto" inputmode="numeric" min="50" max="900" step="1" required></label>
+      <label class="f">Peso no dia (kg)<input type="number" id="tPeso" inputmode="decimal" min="35" max="160" step="0.1"></label>
+    </div>
+    <div id="tPrev" class="row" style="margin-top:12px"></div>
+    <details class="mais" style="margin-top:12px"><summary>Notas do teste</summary>
+      <div class="conteudo"><label class="f">Notas<textarea id="tNotas" placeholder="Rolo, ventilador ligado, em jejum…"></textarea></label></div></details>
+    <div class="row" style="margin-top:13px"><button type="submit" class="btn pri grande wide">Guardar teste e atualizar FTP</button></div>
+  </form>
+
+  <form class="card" id="fRec" autocomplete="off">
+    <h3>Recorde de potência</h3>
+    <p class="small muted" style="margin-top:4px">Os melhores valores de cada duração, tirados do resumo do ciclocomputador ou do Strava. Dão a tua curva de potência.</p>
+    <div class="grid3" style="margin-top:10px">
+      <label class="f">Duração<select id="cDur">${DURACOES.map(d=>`<option value="${d.k}">${d.r}</option>`).join("")}</select></label>
+      <label class="f">Potência (W)<input type="number" id="cW" inputmode="numeric" min="50" max="2200" step="1" required></label>
+      <label class="f">Data<input type="date" id="cData"></label>
+    </div>
+    <div class="row" style="margin-top:13px"><button type="submit" class="btn pri grande wide">Guardar recorde</button></div>
+  </form>
+
+  <div class="card" id="listaSessoes"></div>`;
+}
+function painelSessoes(){
+  const box = el("listaSessoes"); if(!box) return;
+  const ss = [...S.sessoes].sort((a,b)=>(a.data<b.data?1:-1));
+  const mostra = ss.slice(0, 30);
+  /* lista em vez de tabela: dez colunas num ecrã de 375 px obrigavam a arrastar para o lado */
+  box.innerHTML = `<h3>Histórico · ${ss.length} ${ss.length===1?"treino":"treinos"}</h3>` + (ss.length ? `
+    <div class="hist" style="margin-top:6px">${mostra.map(s=>{
+      const det = [fmtData(s.data), fmtMin(+s.min||0)];
+      if(s.np||s.pm) det.push((s.np||s.pm)+" W");
+      if(s.if!=null) det.push("IF "+r2(s.if));
+      if(s.km) det.push(r1(s.km)+" km");
+      if(s.kj) det.push(s.kj+" kJ");
+      if(s.rpe) det.push("RPE "+s.rpe);
+      return `<div class="it">
+        <div class="q"><div class="t">${esc(s.titulo||"Treino")}${s.exemplo?' <span class="badge ex">ex.</span>':""}${s.estimado?' <span class="badge">est.</span>':""}</div>
+          <div class="s">${det.join(" · ")}</div></div>
+        <div class="v">${s.tss||"—"}<em>TSS</em></div>
+        <button class="btn sm ghost danger" data-apagar-sessao="${esc(s.id)}" aria-label="Apagar este treino">✕</button>
+      </div>`; }).join("")}</div>
+    ${ss.length > mostra.length ? `<p class="tiny muted" style="margin-top:10px">A mostrar os ${mostra.length} mais recentes. O histórico completo sai na exportação para Excel.</p>` : ""}`
+    : `<div class="empty" style="margin-top:10px"><span class="big">Ainda sem treinos</span><span class="small">O primeiro registo abre os gráficos de evolução.</span></div>`);
+}
+function prevSessao(){
+  const box = el("rPrev"); if(!box) return;
+  const s = {min:+el("rMin").value, pm:+el("rPm").value, np:+el("rNp").value};
+  const m = metricas(s, FTP());
+  if(!s.min){ box.innerHTML = `<span class="tiny muted">Preenche a duração e a potência para ver IF, TSS e kJ.</span>`; return; }
+  box.innerHTML = `<span class="chip">Duração <b>${fmtMin(s.min)}</b></span>
+    ${m.if!=null?`<span class="chip">IF <b>${r2(m.if)}</b></span><span class="chip">TSS <b>${m.tss}</b>${m.estimado?" (est.)":""}</span>`:`<span class="chip">TSS <b>precisa de FTP e potência</b></span>`}
+    ${m.kj?`<span class="chip">Trabalho <b>${m.kj} kJ</b></span>`:""}
+    ${m.vi?`<span class="chip">Variabilidade <b>${m.vi}</b></span>`:""}
+    ${m.if!=null?`<span class="pill"><span class="dot" style="background:var(${zonaDe(Math.round(m.if*100)).cor})"></span>esforço médio em ${zonaDe(Math.round(m.if*100)).z}</span>`:""}`;
+}
+const FATOR = {rampa:0.75, "20min":0.95, "8min":0.90, direto:1};
+function prevTeste(){
+  const box = el("tPrev"); if(!box) return;
+  const bruto = +el("tBruto").value, met = el("tMetodo").value, peso = +el("tPeso").value || PESO();
+  if(!bruto){ box.innerHTML = `<span class="tiny muted">Introduz o valor medido para ver o FTP resultante.</span>`; return; }
+  const ftp = Math.round(bruto*FATOR[met]);
+  const ant = FTP(), dif = ant ? Math.round((ftp-ant)/ant*1000)/10 : null;
+  box.innerHTML = `<span class="chip">FTP novo <b>${ftp} W</b></span>
+    ${peso?`<span class="chip">Relação peso/potência <b>${r2(ftp/peso)} W/kg</b></span>`:""}
+    ${dif!=null?`<span class="chip">Variação <b style="color:var(${dif>=0?"--good":"--crit"})">${dif>0?"+":""}${dif}%</b></span>`:""}`;
+}
+
+/* ---- EVOLUÇÃO ---- */
+function vistaEvolucao(){
+  const partes = [];
+  const carga = serieCarga(S.sessoes), u = carga[carga.length-1];
+  const j7 = statsJanela(7), j28 = statsJanela(28);
+  const testes = [...S.testes].sort((a,b)=>(a.data<b.data?-1:1));
+  const lt = lerTSB(u?u.tsb:null);
+
+  partes.push(`<div><h1>Evolução</h1><p class="muted small" style="margin-top:4px">Quatro leituras: quanto consegues (FTP), quanto treinas (TSS), quanta base tens (forma) e quão descansado estás (frescura).</p></div>`);
+  if(temExemplos()) partes.push(`<div class="banner info"><span class="ic">ℹ</span><div><b>Inclui dados de exemplo</b>
+    Os gráficos mostram registos de demonstração. <button class="btn sm" data-limpar-ex style="margin-top:7px">Apagar os exemplos</button></div></div>`);
+
+  partes.push(`<div class="tiles">
+    ${tileHTML("FTP", FTP()||"—", FTP()?"W":"", FTP()&&PESO()?`${r2(FTP()/PESO())} W/kg · ${PESO()} kg`:"preenche o perfil")}
+    ${tileHTML("Forma (CTL)", u?Math.round(u.ctl):"—","", "carga média a 42 dias")}
+    ${tileHTML("Fadiga (ATL)", u?Math.round(u.atl):"—","", "carga média a 7 dias")}
+    ${tileHTML("Frescura (TSB)", u?(u.tsb>0?"+":"")+Math.round(u.tsb):"—","", `<span style="color:var(${lt.c})">${lt.t}</span>`)}
+    ${tileHTML("7 dias", j7.tss, "TSS", `${fmtMin(j7.min)} · ${r1(j7.km)} km`)}
+    ${tileHTML("28 dias", j28.tss, "TSS", `${j28.n} sessões · ${fmtMin(j28.min)}`)}
+    ${tileHTML("Horas / semana", j28.n?r1(j28.min/60/4):"—","h", "média das últimas 4 semanas")}
+    ${tileHTML("Trabalho 28 dias", S.sessoes.filter(s=>s.data>=somaDias(hojeISO(),-27)).reduce((a,s)=>a+(+s.kj||0),0)||"—","kJ","energia produzida")}
+  </div>`);
+
+  /* FTP */
+  if(testes.length >= 1){
+    const dados = testes.map(t => ({x:fmtData(t.data), rot:fmtDataLonga(t.data), ftp:+t.ftp||0}));
+    const g = grafLinhas({dados, series:[{k:"ftp", nome:"FTP", cor:"--s1", un:" W"}], rotulo:"Evolução do FTP", areaPrimeira:true, H:200, yMin:Math.min(...dados.map(d=>d.ftp))*0.9});
+    const prim = testes[0], ult = testes[testes.length-1];
+    const dif = prim.ftp && testes.length>1 ? Math.round((ult.ftp-prim.ftp)/prim.ftp*1000)/10 : null;
+    partes.push(figura({titulo:"FTP teste a teste", sub: dif!=null?`${dif>0?"+":""}${dif}% desde ${fmtData(prim.data)}`:"um teste registado",
+      svg:g.svg, nota:"O FTP é a potência que consegues manter cerca de uma hora. É o número que define todas as zonas.",
+      tabela:`<table><thead><tr><th>Data</th><th>Método</th><th>Medido</th><th>FTP</th><th>W/kg</th></tr></thead><tbody>
+        ${testes.map(t=>`<tr><td class="n">${fmtData(t.data)}</td><td>${esc(t.metodo||"—")}</td><td class="n">${t.bruto||"—"} W</td>
+        <td class="n">${t.ftp} W</td><td class="n">${t.peso?r2(t.ftp/t.peso):"—"}</td></tr>`).join("")}</tbody></table>`}));
+  } else {
+    partes.push(vazio("FTP teste a teste","Ainda não há nenhum teste","Faz o teste da semana 1 e registo-o em Registar › Teste de FTP. A partir do segundo teste aparece aqui a linha de progressão."));
+  }
+
+  /* TSS semanal */
+  if(S.sessoes.length){
+    const sem = {};
+    S.sessoes.forEach(s => { const k = segunda(s.data); sem[k] = (sem[k]||0) + (+s.tss||0); });
+    const chaves = Object.keys(sem).sort(); const prim = chaves[0];
+    const todas = []; for(let k = prim; k <= segunda(hojeISO()); k = somaDias(k,7)) todas.push({x:fmtData(k), rot:`semana de ${fmtDataLonga(k)}`, tss:sem[k]||0, nome:"Carga da semana"});
+    const ultimas = todas.slice(-12);
+    const media = Math.round(ultimas.reduce((a,d)=>a+d.tss,0)/ultimas.length);
+    const g = grafBarras({dados:ultimas, chave:"tss", cor:"--s1", rotulo:"TSS por semana", media, H:195});
+    partes.push(figura({titulo:"Carga por semana", sub:`últimas ${ultimas.length} semanas, em TSS`, svg:g.svg,
+      nota:"Sobe a carga no máximo 5–8% por semana e deixa uma semana leve a cada quatro. Saltos grandes é como se chega lesionado ou constipado.",
+      tabela:`<table><thead><tr><th>Semana de</th><th>TSS</th></tr></thead><tbody>${ultimas.map(d=>`<tr><td>${d.x}</td><td class="n">${d.tss}</td></tr>`).join("")}</tbody></table>`}));
+  } else partes.push(vazio("Carga por semana","Sem treinos registados","Cada treino que registares entra aqui como TSS — a medida de quanto te custou a sessão."));
+
+  /* CTL / ATL + TSB */
+  if(carga.length > 2){
+    const jan = carga.slice(-90);
+    const dados = jan.map(d => ({x:fmtData(d.data), rot:fmtDataLonga(d.data), ctl:d.ctl, atl:d.atl, tsb:d.tsb, nome:"Frescura (TSB)"}));
+    const g = grafLinhas({dados, series:[{k:"ctl",nome:"Forma (CTL)",cor:"--s1"},{k:"atl",nome:"Fadiga (ATL)",cor:"--s2"}],
+      rotulo:"Forma e fadiga", H:210, formato:v=>Math.round(v), yMin:0});
+    partes.push(figura({titulo:"Forma e fadiga", sub:`últimos ${jan.length} dias, na mesma unidade (TSS por dia)`,
+      legenda:`<span><i style="background:var(--s1)"></i>Forma (CTL) — base acumulada</span><span><i style="background:var(--s2)"></i>Fadiga (ATL) — cansaço recente</span>`,
+      svg:g.svg, nota:"A forma sobe devagar e desce devagar; a fadiga sobe e desce depressa. Quando as duas se cruzam para baixo, estás a perder base.",
+      tabela:`<table><thead><tr><th>Data</th><th>TSS</th><th>CTL</th><th>ATL</th><th>TSB</th></tr></thead><tbody>
+        ${jan.slice(-30).reverse().map(d=>`<tr><td class="n">${fmtData(d.data)}</td><td class="n">${d.tss||"—"}</td>
+        <td class="n">${Math.round(d.ctl)}</td><td class="n">${Math.round(d.atl)}</td><td class="n">${d.tsb>0?"+":""}${Math.round(d.tsb)}</td></tr>`).join("")}</tbody></table>`}));
+    const gb = grafBarras({dados, chave:"tsb", cor:"--s3", corNeg:"--s2", rotulo:"Frescura diária", H:170, formato:v=>Math.round(v)});
+    partes.push(figura({titulo:"Frescura, dia a dia", sub:"forma menos fadiga — acima de zero estás descansado",
+      svg:gb.svg, nota:"Entre −10 e +10 é o normal de quem treina. Abaixo de −25 durante dias seguidos é sinal para aliviar; acima de +15 estás fresco para um teste ou uma prova."}));
+  }
+
+  /* curva de potência */
+  const pts = DURACOES.map(d => ({...d, ...(S.recordes[d.k]||{})})).filter(p => +p.w > 0).map(p => ({s:p.s, r:p.r, w:+p.w, data:p.data}));
+  if(pts.length >= 3){
+    const g = grafCurva({pontos:pts});
+    partes.push(figura({titulo:"Curva de potência", sub:"os teus melhores valores por duração", svg:g.svg,
+      nota:"Uma curva que desce a pique à esquerda é motor de sprint; uma curva plana à direita é motor de resistência. Compara daqui a três meses.",
+      tabela:`<table><thead><tr><th>Duração</th><th>Potência</th><th>W/kg</th><th>Data</th></tr></thead><tbody>
+        ${pts.map(p=>`<tr><td>${p.r}</td><td class="n">${p.w} W</td><td class="n">${PESO()?r2(p.w/PESO()):"—"}</td><td class="n">${p.data?fmtData(p.data):"—"}</td></tr>`).join("")}</tbody></table>`}));
+  } else partes.push(vazio("Curva de potência", pts.length?`Faltam durações (tens ${pts.length} de 9)`:"Sem recordes de potência",
+      "Mete em Registar › Recorde de potência os teus melhores valores de 5 s, 1 min, 5 min e 20 min. Com três ou mais, a curva aparece aqui."));
+  return partes.join("");
+}
+
+/* ---- DADOS (perfil, zonas, excel, guia) ---- */
+const SUBS = [["perfil","Perfil"],["meus","Os meus treinos"],["zonas","Zonas"],["excel","Excel na OneDrive"],["guia","Guia para começar"]];
+function vistaDados(){
+  return `<div><h1>Dados e ajustes</h1></div>
+  <div class="subnav">${SUBS.map(([k,n])=>`<button data-sub="${k}" aria-current="${S.sub===k}">${n}</button>`).join("")}</div>
+  <div id="subview" class="stack" style="padding-block:0;gap:14px"></div>`;
+}
+function subPerfil(){
+  const p = S.perfil;
+  return `<form class="card" id="fPerfil" autocomplete="off">
+    <h3>Perfil</h3><p class="small muted" style="margin-top:4px">O FTP e o peso são usados em tudo: zonas, TSS, W/kg.</p>
+    <div class="grid2" style="margin-top:10px">
+      <label class="f">Nome<input type="text" id="pNome" value="${esc(p.nome||"")}"></label>
+      <label class="f">Data de nascimento<input type="date" id="pNasc" value="${esc(p.nasc||"")}"></label>
+      <label class="f">Peso (kg)<input type="number" id="pPeso" step="0.1" min="35" max="160" value="${esc(p.peso||"")}"></label>
+      <label class="f">Altura (cm)<input type="number" id="pAltura" step="1" min="120" max="220" value="${esc(p.altura||"")}"></label>
+      <label class="f">FTP (W)<input type="number" id="pFtp" step="1" min="50" max="900" value="${esc(p.ftp||"")}"></label>
+      <label class="f">Data do FTP<input type="date" id="pFtpData" value="${esc(p.ftpData||"")}"></label>
+      <label class="f">FC máxima<input type="number" id="pFcmax" step="1" min="120" max="230" value="${esc(p.fcmax||"")}"></label>
+      <label class="f">FC em repouso<input type="number" id="pFcrep" step="1" min="30" max="110" value="${esc(p.fcrep||"")}"></label>
+      <label class="f">Pedaleira (mm)<input type="number" id="pPed" step="2.5" min="150" max="180" value="${esc(p.pedaleira||170)}"></label>
+      <label class="f">Início do plano (segunda-feira)<input type="date" id="pInicio" value="${esc(p.inicioPlano||"")}"></label>
+    </div>
+    <label class="f" style="margin-top:10px">Objetivo<input type="text" id="pObj" value="${esc(p.objetivo||"")}" placeholder="Subir o FTP, perder peso e andar melhor em subidas"></label>
+    <div class="row" style="margin-top:12px"><button type="submit" class="btn pri">Guardar perfil</button></div>
+  </form>
+  <div class="card"><h3>Em que semana estás</h3>
+    <p class="small muted" style="margin-top:4px">O plano avança uma semana por semana e não termina: passada a semana ${MACRO} começa o ciclo seguinte,
+      com os mesmos treinos a valer os watts do teu FTP novo. Não há nada para reiniciar à mão.</p>
+    <p class="small muted" style="margin-top:8px">Se faltaste umas semanas — ou se queres saltar à frente — corrige aqui o número.
+      A data de início é recalculada para trás e o plano passa a dar-te essa semana. Nenhum registo é apagado.</p>
+    <div class="grid2" style="margin-top:11px">
+      <label class="f">Estou na semana<input type="number" id="pSemana" inputmode="numeric" min="1" max="999" value="${semanaAtual()}"></label>
+      <div style="display:flex;align-items:flex-end"><button type="button" class="btn wide" id="btnSemana">Passar para essa semana</button></div>
+    </div>
+    <p class="tiny muted" style="margin-top:9px">Agora: semana ${semanaAtual()} do plano — a ${semBase(semanaAtual())}.ª do ${esc(tituloCiclo(cicloNum(semanaAtual())).toLowerCase())}.</p></div>
+  <div class="card"><h3>Partilhar com outra pessoa</h3>
+    <p class="small muted" style="margin-top:4px">Dá-lhe o mesmo endereço. Não há contas nem registos: os dados de cada um
+      ficam no aparelho de cada um, por isso o diário dele nasce vazio e nunca se mistura com o teu.</p>
+    <p class="small muted" style="margin-top:8px">Diz-lhe para o abrir no <b>Safari</b> (ou no Chrome, no Android) e escolher
+      <b>Adicionar ao ecrã principal</b>. E diz-lhe para fazer uma cópia de segurança de vez em quando, como tu.</p></div>
+  `;
+}
+/* --- criador de treinos --- */
+let EDIT = null;   // treino em edição, ou null para um novo
+/* Um bloco = [nome, %mín, %máx, minutos, repetições, solto]. Os três últimos são
+   o que permite gerar o ficheiro .fit para o Garmin: sem duração não há passo. */
+function linhaBloco(b, i){
+  const v = n => esc(b && b[n] != null ? b[n] : "");
+  return `<div class="bloco" data-bloco>
+    <input type="text" data-bl placeholder="Nome do bloco — ex.: Sweet spot" value="${v(0)}" aria-label="Nome do bloco">
+    <div class="nums">
+      <label class="f">% mín<input type="number" data-ba inputmode="numeric" min="30" max="220" step="1" value="${v(1)}"></label>
+      <label class="f">% máx<input type="number" data-bb inputmode="numeric" min="30" max="220" step="1" value="${v(2)}"></label>
+      <label class="f">min<input type="number" data-bm inputmode="numeric" min="1" max="300" step="1" value="${v(3)}"></label>
+      <label class="f">vezes<input type="number" data-bn inputmode="numeric" min="1" max="30" step="1" value="${b&&b[4]?esc(b[4]):""}" placeholder="1"></label>
+      <label class="f">solto<input type="number" data-bs inputmode="numeric" min="0" max="60" step="1" value="${b&&b[5]?esc(b[5]):""}"></label>
+      <button type="button" class="btn sm ghost" data-tirar-bloco aria-label="Remover este bloco">✕</button>
+    </div>
+  </div>`;
+}
+function subMeus(){
+  const e = EDIT;
+  const meus = S.meus.slice().sort((a,b2)=>((a.s||99)-(b2.s||99))||(a.t<b2.t?-1:1));
+  const blocos = (e && e.alvos && e.alvos.length ? e.alvos : [["Aquecimento",60,70,15,1,0],["Bloco principal",88,93,10,3,5],["Arrefecer",50,58,10,1,0]]);
+  return `<form class="card" id="fMeu" autocomplete="off">
+    <h3>${e?"Editar treino":"Criar um treino"}</h3>
+    <p class="small muted" style="margin-top:4px">Os blocos definem-se em <b>percentagem do FTP</b>, não em watts — assim o treino acompanha-te sempre que o FTP subir.</p>
+    <div class="grid2" style="margin-top:11px">
+      <label class="f">Nome do treino<input type="text" id="mT" required placeholder="Limiar 3×12" value="${esc(e?e.t:"")}"></label>
+      <label class="f">Onde<select id="mLoc">${["Rolo","Estrada","Livre","Montanha"].map(o=>`<option${e&&e.loc===o?" selected":""}>${o}</option>`).join("")}</select></label>
+      <label class="f">Duração (min)<input type="number" id="mMin" min="10" max="600" step="5" required value="${esc(e?e.min:"")}"></label>
+      <label class="f">Zona principal<select id="mZ">${ZONAS.map(z=>`<option value="${z.z}"${e&&e.z===z.z?" selected":""}>${z.z} · ${z.nome}</option>`).join("")}</select></label>
+      <label class="f">Semana do plano<select id="mS"><option value="0"${e&&!e.s?" selected":""}>Biblioteca — sem semana fixa</option>
+        ${Array.from({length:MACRO},(_,i)=>i+1).map(n=>`<option value="${n}"${e&&e.s===n?" selected":""}>Semana ${n} — repete em cada ciclo</option>`).join("")}</select></label>
+      <label class="f">Dia<select id="mD">${Object.entries(DIAS).map(([k,v])=>`<option value="${k}"${e&&e.d===k?" selected":""}>${v}</option>`).join("")}</select></label>
+      <label class="f">TSS alvo <span style="font-weight:400">(deixa vazio para estimar)</span>
+        <input type="number" id="mTss" min="5" max="600" step="1" value="${esc(e&&e.tssManual?e.tss:"")}"></label>
+    </div>
+    <div style="margin-top:14px"><div class="eyebrow">Blocos do treino</div>
+      <div id="mBlocos" style="margin-top:7px;display:flex;flex-direction:column;gap:7px">${blocos.map(linhaBloco).join("")}</div>
+      <button type="button" class="btn sm ghost" id="mAdd" style="margin-top:8px">+ Acrescentar bloco</button></div>
+    <label class="f" style="margin-top:12px">Descrição<textarea id="mDesc" placeholder="O que fazer, quanto tempo em cada bloco, cadência, como te deves sentir…">${esc(e?e.desc:"")}</textarea></label>
+    <div id="mPrev" class="row" style="margin-top:12px"></div>
+    <div class="row" style="margin-top:12px">
+      <button type="submit" class="btn pri">${e?"Guardar alterações":"Criar treino"}</button>
+      ${e?`<button type="button" class="btn ghost" id="mCancel">Cancelar</button>`:""}
+    </div>
+    <p class="tiny muted" style="margin-top:9px">O TSS é estimado a partir da duração e da intensidade média dos blocos. Depois de fazeres o treino, regista os valores reais em Registar e o TSS passa a ser o verdadeiro.</p>
+  </form>
+  <div class="card"><h3>Treinos criados por ti · ${meus.length}</h3>
+    ${meus.length ? `<div class="tw" style="margin-top:9px"><table>
+      <thead><tr><th>Treino</th><th>Quando</th><th>Onde</th><th>Min</th><th>TSS</th><th>Zona</th><th></th></tr></thead>
+      <tbody>${meus.map(m=>`<tr><td>${esc(m.t)}</td><td>${m.s?`Semana ${m.s} de cada ciclo · ${esc((DIAS[m.d]||"").split("· ").pop())}`:"Biblioteca"}</td>
+        <td>${esc(m.loc)}</td><td class="n">${m.min}</td><td class="n">${m.tss}</td><td>${esc(m.z)}</td>
+        <td><button class="btn sm ghost" data-fit="${esc(m.cid)}">.fit</button>
+            <button class="btn sm ghost" data-editar="${esc(m.cid)}">Editar</button>
+            <button class="btn sm danger" data-apagar-meu="${esc(m.cid)}">Apagar</button></td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty" style="margin-top:10px"><span class="big">Ainda não criaste nenhum</span>
+         <span class="small">Cria um acima: vai aparecer no Plano, na semana que escolheres, ao lado dos treinos que já lá estão.</span></div>`}</div>`;
+}
+function lerBlocos(){
+  return [...document.querySelectorAll("#mBlocos [data-bloco]")].map(r => {
+    const val = sel => +r.querySelector(sel).value;
+    const nome = r.querySelector("[data-bl]").value.trim();
+    if(!nome) return null;
+    const a = val("[data-ba]"), b = val("[data-bb]");
+    if(!(a && b)) return [nome];
+    const bl = [nome, Math.min(a,b), Math.max(a,b)];
+    const m = val("[data-bm]");
+    if(m) bl.push(m, Math.max(1, val("[data-bn]") || 1), val("[data-bs]") || 0);
+    return bl;
+  }).filter(Boolean);
+}
+/* TSS estimado: média das intensidades dos blocos, ponderada por quanto do treino cada um ocupa */
+function tssEstimado(min, alvos, zona){
+  const comPct = alvos.filter(a => a.length >= 3);
+  let intensidade;
+  if(comPct.length){
+    const maior = Math.max(...comPct.map(a => (a[1]+a[2])/2));
+    const media = comPct.reduce((s,a) => s + (a[1]+a[2])/2, 0) / comPct.length;
+    intensidade = (media*0.6 + maior*0.4) / 100;           // os blocos fortes pesam mais do que a sua fatia de tempo
+  } else {
+    const Z = ZONAS.find(z => z.z === zona) || ZONAS[1];
+    intensidade = (Z.a + Math.min(Z.b,150)) / 200;
+  }
+  return Math.round(min/60 * intensidade * intensidade * 100);
+}
+function prevMeu(){
+  const box = el("mPrev"); if(!box) return;
+  const min = +el("mMin").value, alvos = lerBlocos(), z = el("mZ").value, manual = +el("mTss").value;
+  if(!min){ box.innerHTML = `<span class="tiny muted">Preenche a duração para ver o TSS estimado.</span>`; return; }
+  const tss = manual || tssEstimado(min, alvos, z);
+  const comW = alvos.filter(a => a.length >= 3).map(a =>
+    `<span class="chip">${esc(a[0])} <b>${FTP()?`${Math.round(FTP()*a[1]/100)}–${Math.round(FTP()*a[2]/100)} W`:`${a[1]}–${a[2]}% FTP`}</b></span>`).join("");
+  const passos = passosDoMeu({alvos});
+  const somaBlocos = Math.round(passos.reduce((a,x)=>a+x.segundos,0)/60);
+  box.innerHTML = `<span class="chip">Duração <b>${fmtMin(min)}</b></span>
+    <span class="chip">TSS ${manual?"":"estimado "}<b>${tss}</b></span>${comW}
+    ${passos.length?`<span class="chip">Garmin <b>${passos.length} passos · ${fmtMin(somaBlocos)}</b></span>`
+      :`<span class="chip">Garmin <b>falta a duração dos blocos</b></span>`}`;
+}
+function subZonas(){
+  const ftp = FTP();
+  return `<div class="card"><h3>As tuas zonas de potência</h3>
+    <p class="small muted" style="margin-top:4px">${ftp?`Calculadas sobre um FTP de <b>${ftp} W</b>${PESO()?` · ${r2(ftp/PESO())} W/kg`:""}. Mudam sozinhas quando registares um teste novo.`:"Preenche o FTP no Perfil para as zonas aparecerem em watts."}</p>
+    <div style="margin-top:12px">${ZONAS.map(z=>`<div class="zrow">
+      <div class="zn"><span class="zs" style="background:var(${z.cor})"></span>
+        <div style="min-width:0"><div style="font-family:var(--disp);font-size:1.02rem">${z.z} · ${z.nome}</div>
+        <div class="tiny muted">${z.a}–${z.b===220?"+":z.b}% do FTP</div></div></div>
+      <div class="tiny muted">${z.para}</div>
+      <div class="zw">${ftp?`${Math.round(ftp*z.a/100)}–${z.b===220?"∞":Math.round(ftp*z.b/100)} W`:"—"}</div>
+    </div>`).join("")}</div></div>
+  <div class="card"><h3>Zonas de frequência cardíaca</h3>
+    ${S.perfil.fcmax ? `<p class="small muted" style="margin-top:4px">Sobre uma FC máxima de ${S.perfil.fcmax} bpm. Usa-as apenas como apoio: num treino com potenciómetro, manda a potência — a FC chega atrasada e muda com o calor, o sono e o café.</p>
+      <div style="margin-top:10px">${[["Z1",50,60],["Z2",60,70],["Z3",70,80],["Z4",80,90],["Z5",90,100]].map(([z,a,b],i)=>`<div class="zrow">
+        <div class="zn"><span class="zs" style="background:var(${ZONAS[i].cor})"></span><div style="font-family:var(--disp)">${z}</div></div>
+        <div class="tiny muted">${a}–${b}% da FC máx</div>
+        <div class="zw">${Math.round(S.perfil.fcmax*a/100)}–${Math.round(S.perfil.fcmax*b/100)} bpm</div></div>`).join("")}</div>`
+      : `<p class="small muted" style="margin-top:4px">Preenche a FC máxima no Perfil para ver estas zonas.</p>`}</div>`;
+}
+function subExcel(){
+  const n = S.sessoes.length;
+  return `<div class="card"><h3>O teu Excel na OneDrive</h3>
+    <p class="small muted" style="margin-top:4px">A app guarda tudo na sua própria base de dados — é isso que permite registares no telemóvel e verificares no PC. O Excel é a tua cópia de trabalho e de arquivo: exportas quando quiseres e guardas na OneDrive.</p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn pri" id="btnExportar">Exportar Treino_Potencia.xlsx</button>
+      <label class="btn" style="cursor:pointer">Importar de um Excel<input type="file" id="inpImportar" accept=".xlsx,.xls" hidden></label>
+    </div>
+    <hr class="sep">
+    <div class="eyebrow">Cópia de segurança — faz isto</div>
+    <p class="small muted" style="margin-top:6px">Tudo o que registas está só neste aparelho. Esta cópia guarda <b>tudo</b>
+      tal e qual — perfil, treinos, testes, recordes e os treinos que criaste — e repõe-se num instante.
+      É também assim que passas os dados do telemóvel para o PC, ou para um telemóvel novo.</p>
+    <div class="row" style="margin-top:11px">
+      <button class="btn pri" id="btnCopia">Guardar cópia de segurança</button>
+      <label class="btn" style="cursor:pointer">Repor de uma cópia<input type="file" id="inpCopia" accept=".json,application/json" hidden></label>
+    </div>
+    <p class="tiny muted" style="margin-top:8px">Repor <b>substitui</b> tudo o que está neste aparelho. Pede confirmação antes.</p>
+    <hr class="sep">
+    <div class="eyebrow">O Excel, para análise</div>
+    <ol class="steps" style="margin-top:8px">
+      <li>Exporta o ficheiro — vai para as <b>Transferências</b>.</li>
+      <li>Move-o para a pasta da OneDrive pessoal (por exemplo <span class="mono">OneDrive/Treino/</span>), substituindo o anterior.</li>
+      <li>Na OneDrive, abre-o e usa <b>Dados › Atualizar</b> se tiveres gráficos ou tabelas dinâmicas montadas por cima.</li>
+      <li>Repete de vez em quando. O Excel é para analisares à vontade; para <b>recuperar</b> dados usa a cópia de segurança acima, que é fiel.</li>
+    </ol>
+    <p class="tiny muted" style="margin-top:9px">A importação lê as folhas <span class="mono">Sessoes</span>, <span class="mono">Testes</span>, <span class="mono">Recordes</span> e <span class="mono">Perfil</span>. Serve para recuperar dados ou para trazer histórico antigo — os registos com a mesma data e título são substituídos.</p>
+    <hr class="sep">
+    <div class="eyebrow">Folhas do ficheiro</div>
+    <div class="tw" style="margin-top:8px"><table><thead><tr><th>Folha</th><th>O que leva</th><th>Linhas</th></tr></thead><tbody>
+      <tr><td class="mono">Perfil</td><td style="text-align:left">Peso, FTP, FC, objetivo, início do plano</td><td class="n">11</td></tr>
+      <tr><td class="mono">Zonas</td><td style="text-align:left">As 7 zonas em % e em watts</td><td class="n">7</td></tr>
+      <tr><td class="mono">Plano</td><td style="text-align:left">As ${MACRO} semanas do ciclo em curso, os treinos que criaste e o estado de cada um</td><td class="n">${planoExport().length}</td></tr>
+      <tr><td class="mono">Sessoes</td><td style="text-align:left">Cada treino registado com IF, TSS, kJ, VI</td><td class="n">${n}</td></tr>
+      <tr><td class="mono">Testes</td><td style="text-align:left">Histórico de FTP com W/kg e variação</td><td class="n">${S.testes.length}</td></tr>
+      <tr><td class="mono">Carga</td><td style="text-align:left">Série diária de TSS, CTL, ATL e TSB</td><td class="n">${serieCarga(S.sessoes).length}</td></tr>
+      <tr><td class="mono">Recordes</td><td style="text-align:left">Curva de potência por duração</td><td class="n">${Object.keys(S.recordes).length}</td></tr>
+      <tr><td class="mono">Resumo</td><td style="text-align:left">Totais por semana: sessões, horas, km, TSS</td><td class="n">—</td></tr>
+    </tbody></table></div></div>`;
+}
+function subGuia(){
+  return `<div class="card"><h3>A app no iPhone</h3>
+    <p class="small muted" style="margin-top:4px">Põe-na no ecrã principal e passa a abrir como uma app normal, sem a barra do Safari.</p>
+    <ol class="steps" style="margin-top:9px">
+      <li>Abre este endereço <b>no Safari</b> (não no Chrome — só o Safari sabe fazer isto).</li>
+      <li>Toca no botão <b>Partilhar</b>, o quadrado com a seta para cima, em baixo ao centro.</li>
+      <li>Desce na lista e escolhe <b>Adicionar ao ecrã principal</b>. Dá-lhe o nome que quiseres e toca em <b>Adicionar</b>.</li>
+    </ol>
+    <hr class="sep">
+    <div class="eyebrow">Registar um treino pelo telemóvel</div>
+    <ol class="steps" style="margin-top:8px">
+      <li>Abre a app e vai a <b>Registar</b>.</li>
+      <li>Em <b>Qual do plano</b> escolhe o treino — o título e a duração preenchem-se sozinhos.</li>
+      <li>Corrige a duração se não bateu certo e mete a <b>potência média</b> e a <b>NP</b>, copiadas do resumo do Garmin ou do Strava.</li>
+      <li><b>Guardar treino.</b> O IF, o TSS e os kJ calculam-se e o treino fica marcado como feito no plano.</li>
+    </ol>
+    <p class="tiny muted" style="margin-top:9px">São os únicos cinco campos à vista; FC, cadência, distância e notas estão dobrados em "Título, local, FC, cadência, notas" e são todos opcionais. O que registas no telemóvel aparece no PC, e ao contrário — é a mesma base de dados.</p>
+    <p class="tiny muted" style="margin-top:7px">Faz isto no próprio dia. São trinta segundos, e é o que faz os gráficos da Evolução existirem.</p></div>
+  <div class="card"><h3>Primeiras duas semanas, sem complicar</h3>
+    <ol class="steps" style="margin-top:9px">
+      <li><b>Configura o potenciómetro.</b> Se for de pedais (Assioma, Garmin Rally) ou de manivela, abre as definições do sensor no ciclocomputador e confirma que o <b>comprimento da pedaleira está a 170 mm</b> — muitos vêm com 172,5 mm de origem e a potência sai errada cerca de 1,5%. Faz a calibração (\"zero offset\") antes de cada saída, com o pé fora do pedal.</li>
+      <li><b>Preenche o perfil</b> com peso e, para já, deixa o FTP vazio.</li>
+      <li><b>Faz o teste de FTP</b> da semana 1, no rolo, descansado. Registo-o aqui e as zonas aparecem todas.</li>
+      <li><b>Nas primeiras duas semanas olha só para dois números:</b> a potência média e a zona em que estás. Esquece NP, TSS e tudo o resto.</li>
+      <li><b>Regista cada treino no mesmo dia.</b> São 30 segundos e é o que faz os gráficos existirem.</li>
+      <li><b>Repete o teste na semana 9.</b> Só aí vale a pena comparar: em menos de seis semanas o ruído é maior que o progresso.</li>
+    </ol></div>
+  <div class="card"><h3>Pôr os treinos no Garmin</h3>
+    <p class="small muted" style="margin-top:4px">Os ${MACRO*3} treinos do plano existem em <span class="mono">.fit</span> na pasta
+      <span class="mono">Treino/treinos-garmin/</span>. O aparelho lê-os directamente — não é preciso conta, Garmin Connect nem internet.
+      Copias uma vez e ficam lá para sempre: como o plano se repete, os mesmos ficheiros servem todos os ciclos.</p>
+    <ol class="steps" style="margin-top:10px">
+      <li><b>Liga o Garmin ao PC</b> com o cabo USB e espera que apareça como disco.</li>
+      <li>Copia <b>tudo</b> o que está em <span class="mono">treinos-garmin/</span> para a pasta
+        <span class="mono">GARMIN/NEWFILES/</span> do aparelho (se não existir, cria-a).</li>
+      <li><b>Ejecta e desliga o cabo.</b> O aparelho arruma os ficheiros sozinho ao arrancar — passam a estar em
+        <b>Treino › Treinos</b> (ou <b>Menu › Treino</b>, conforme o modelo).</li>
+      <li>Confirma que o <b>FTP no Garmin</b> está igual ao da app. É a partir dele que o aparelho calcula os watts de cada bloco.</li>
+      <li>No dia, escolhe o treino pelo nome que a aba <b>Hoje</b> te indica — começa sempre por
+        <span class="mono">S</span> e o número da semana do ciclo.</li>
+    </ol>
+    <hr class="sep">
+    <ul class="bul">
+      <li><b>Os alvos estão em percentagem do FTP</b>, não em watts fixos. Quando subires o FTP no aparelho, todos os treinos passam a pedir mais watts sozinhos — não voltas a copiar nada.</li>
+      <li><b>O aparelho avisa-te a cada bloco</b> e mostra quanto falta. É para isso que serve: não tens de decorar nada nem olhar para o telemóvel a meio da subida.</li>
+      <li><b>O teste de rampa é a excepção</b>: vai em watts absolutos (100 W, depois +20 W por minuto). Segue até não aguentares e pára — o Garmin continuaria a subir indefinidamente.</li>
+      <li><b>No teste de 20 minutos</b> o bloco do meio não tem alvo nenhum, de propósito: o ritmo é escolhido por ti.</li>
+      <li>Se mudares alguma coisa no plano, volta a correr <span class="mono">python ferramentas/gerar_treinos_garmin.py</span> e copia outra vez.</li>
+    </ul></div>
+  <div class="card"><h3>Treinos de rolo no MyWhoosh</h3>
+    <p class="small muted" style="margin-top:4px">Os treinos estruturados de interior existem como ficheiros, na pasta <span class="mono">Treino/treinos-rolo/</span>: em <span class="mono">.zwo</span> e em <span class="mono">.mrc</span>. Importa o formato que o MyWhoosh aceitar — ambos definem a potência em percentagem do FTP, por isso ajustam-se sozinhos sempre que atualizares o teu FTP na app.</p>
+    <ul class="bul" style="margin-top:9px">
+      <li><b>Põe o FTP certo no MyWhoosh</b> antes de começar, e repete-o depois de cada teste. É o número com que a app calcula todos os watts do treino.</li>
+      <li><b>Modo ERG ligado</b> nos blocos: o rolo segura a potência e tu só tens de manter a cadência. Nos blocos de VO2máx entra a pedalar antes de o bloco começar, senão a resistência apanha-te parado.</li>
+      <li><b>Modo ERG desligado no teste de 20 minutos</b> — tens de ser tu a escolher o ritmo. Nos restantes testes também.</li>
+      <li><b>Regista aqui no fim.</b> Tira do resumo do MyWhoosh a duração, a potência média e a NP, e mete em Registar. O TSS e o resto calculam-se.</li>
+      <li>O treino longo de fim de semana não tem ficheiro: é para fazer na estrada, ou em percurso livre se o tempo não deixar.</li>
+    </ul></div>
+  <div class="card"><h3>O vocabulário todo, em português</h3>
+    <dl class="gloss" style="margin-top:10px">
+      <dt>Watt (W)</dt><dd>A potência que estás a produzir, agora. Ao contrário da velocidade, não mente: não muda com o vento, a subida ou os pneus. É por isso que o potenciómetro vale mais do que tudo o resto junto.</dd>
+      <dt>FTP</dt><dd><i>Functional Threshold Power</i>, a potência que conseguirias manter cerca de uma hora. É a régua de todo o treino: todas as zonas e todos os TSS saem deste número. Mede-se com um teste, de seis em seis semanas.</dd>
+      <dt>W/kg</dt><dd>FTP a dividir pelo peso. Em terreno plano manda o watt absoluto; em subida manda o W/kg. Subir o FTP 10 W ou perder 1 kg dão resultados parecidos numa subida longa.</dd>
+      <dt>NP — potência normalizada</dt><dd>Uma média \"corrigida\" que dá mais peso aos picos. Numa saída irregular, com arranques e subidas, a NP é muito maior do que a média simples — e representa melhor o que o corpo sentiu. É o número a usar para o TSS.</dd>
+      <dt>IF — fator de intensidade</dt><dd>NP a dividir pelo FTP. 0,65 é uma rodagem; 0,85 um treino sério; 0,95 ou mais é teste ou prova curta. Diz quão duro foi, independentemente do tempo.</dd>
+      <dt>TSS</dt><dd>Intensidade e duração num só número. Uma hora exatamente no FTP = 100 TSS. Uma rodagem de duas horas em Z2 ≈ 110. Um longo de 3h30 com blocos ≈ 210. É a moeda com que se mede a carga de treino.</dd>
+      <dt>VI — índice de variabilidade</dt><dd>NP a dividir pela média. Perto de 1,00 significa que pedalaste a um ritmo constante — é o que se quer num longo de Z2 ou num contrarrelógio. Acima de 1,15 andaste aos saltos.</dd>
+      <dt>kJ</dt><dd>O trabalho mecânico produzido. Na prática, 1 kJ ≈ 1 kcal gasta a pedalar — por isso é a estimativa mais honesta de consumo que existe no ciclismo.</dd>
+      <dt>CTL — forma</dt><dd>Média da tua carga diária nos últimos 42 dias. Sobe devagar, desce devagar: é a tua base. Subi-la é o objetivo de fundo do plano.</dd>
+      <dt>ATL — fadiga</dt><dd>A mesma média, mas a 7 dias. Reage depressa a um fim de semana forte.</dd>
+      <dt>TSB — frescura</dt><dd>Forma menos fadiga. Positivo: estás descansado. Muito negativo durante dias: estás a cavar um buraco. Antes de um teste ou de uma prova, queres TSB entre +5 e +15.</dd>
+    </dl></div>
+  <div class="card"><h3>Os dois testes de FTP</h3>
+    <div class="grid2" style="margin-top:10px;gap:14px">
+      <div><h4 style="font-family:var(--disp)">Rampa — 45 min</h4>
+        <ul class="bul" style="margin-top:6px">
+          <li>Aquece 15 min em Z2 com 3×30 s a 100 rpm.</li>
+          <li>Começa em 100 W e <b>sobe 20 W a cada minuto</b>.</li>
+          <li>Sentado, até não conseguires manter 70 rpm.</li>
+          <li><b>FTP = 75% da potência do último minuto completo.</b></li>
+          <li>Mais fácil de gerir mentalmente, ideal para o primeiro teste.</li>
+        </ul></div>
+      <div><h4 style="font-family:var(--disp)">20 minutos — 70 min</h4>
+        <ul class="bul" style="margin-top:6px">
+          <li>Aquece 20 min, com 3×1 min forte e 5 min solto.</li>
+          <li><b>20 min no máximo que consegues sustentar.</b></li>
+          <li>Os primeiros 5 min conservadores; aperta no fim.</li>
+          <li><b>FTP = 95% da média dos 20 min.</b></li>
+          <li>Mais preciso, mas exige saber dosear — usa-o a partir do segundo teste.</li>
+        </ul></div>
+    </div>
+    <p class="tiny muted" style="margin-top:11px">Faz sempre no rolo, com ventilador, descansado (dia fácil ou de descanso antes), sem café a mais do que o habitual e à mesma hora do dia. Mudar o protocolo entre testes é a maneira mais rápida de deixar de poder comparar.</p></div>
+  <div class="card"><h3>Erros de quem começa com potenciómetro</h3>
+    <ul class="bul" style="margin-top:9px">
+      <li><b>Andar sempre em Z3.</b> O erro clássico: os dias fáceis saem demasiado duros e os duros demasiado fracos. Em Z2 tens de te sentir a ir devagar.</li>
+      <li><b>Perseguir o número em cada subida.</b> Num longo de Z2 deixa a potência subir na subida e recupera na descida — o que conta é a média da saída.</li>
+      <li><b>Testar o FTP de duas em duas semanas.</b> Cansa e não mede nada. Seis semanas é o intervalo mínimo útil.</li>
+      <li><b>Comparar watts com outras pessoas.</b> Compara com o teu próprio número de há três meses — é a única comparação que tem sentido.</li>
+      <li><b>Esquecer a calibração.</b> Dois minutos esquecidos e vês 10 W de diferença que não existem.</li>
+      <li><b>Subir a carga sempre.</b> A quarta semana de cada bloco é leve de propósito. É nela que o FTP sobe.</li>
+    </ul></div>`;
+}
+
+/* ============================================================
+   5. Excel: exportar e importar
+   ============================================================ */
+function construirLivro(){
+  const ftp = FTP(), peso = PESO(), wb = XLSX.utils.book_new();
+  const add = (nome, aoa, larguras) => {
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    if(larguras) ws["!cols"] = larguras.map(w => ({wch:w}));
+    XLSX.utils.book_append_sheet(wb, ws, nome);
+  };
+  add("Perfil", [["Campo","Valor"],
+    ["Nome",S.perfil.nome||""],["Data de nascimento",S.perfil.nasc||""],["Peso (kg)",peso||""],["Altura (cm)",S.perfil.altura||""],
+    ["FTP (W)",ftp||""],["Data do FTP",S.perfil.ftpData||""],["W/kg", ftp&&peso?r2(ftp/peso):""],
+    ["FC maxima",S.perfil.fcmax||""],["FC repouso",S.perfil.fcrep||""],["Pedaleira (mm)",S.perfil.pedaleira||170],
+    ["Objetivo",S.perfil.objetivo||""],["Inicio do plano",S.perfil.inicioPlano||""],["Exportado em",hojeISO()]], [24,34]);
+
+  add("Zonas", [["Zona","Nome","% FTP min","% FTP max","Watts min","Watts max","Para que serve"],
+    ...ZONAS.map(z=>[z.z,z.nome,z.a,z.b,ftp?Math.round(ftp*z.a/100):"",ftp?Math.round(ftp*z.b/100):"",z.para])], [7,16,11,11,11,11,62]);
+
+  add("Plano", [["Semana","Ciclo","Semana do ciclo","Bloco","Dia","Sessao","Local","Duracao (min)","TSS alvo","Zona","Origem","Estado","Blocos","Descricao"],
+    ...planoExport().map(p=>[p.sAbs||"", p.sAbs?cicloNum(p.sAbs):"", p.sAbs?semBase(p.sAbs):"", p.b, DIAS[p.d]||"", p.t, p.loc, p.min, p.tss, p.z,
+      p.custom?"Meu":"Plano", S.feitas[planoId(p)]?"Feito":"",
+      (p.alvos||[]).map(a => a.length>=3 ? `${a[0]} ${a[1]}-${a[2]}% FTP${a[3]?` ${a[3]} min`:""}${a[4]>1?` ×${a[4]}`:""}` : a.join(" ")).join(" | "), p.desc||""])],
+    [8,7,15,20,22,30,10,13,10,7,8,9,60,100]);
+
+  const ss = [...S.sessoes].sort((a,b)=>(a.data<b.data?-1:1));
+  add("Sessoes", [["Data","Semana","Titulo","Local","Duracao (min)","Distancia (km)","Pot. media (W)","NP (W)","IF","TSS","kJ","VI","FC media","FC max","Cadencia","RPE","Peso (kg)","Estimado","Notas"],
+    ...ss.map(s=>[s.data,s.data?segunda(s.data):"",s.titulo||"",s.local||"",s.min||"",s.km||"",s.pm||"",s.np||"",
+      s.if!=null?s.if:"",s.tss||"",s.kj||"",s.vi!=null?s.vi:"",s.fcm||"",s.fcx||"",s.cad||"",s.rpe||"",s.peso||"",s.estimado?"sim":"",s.notas||""])],
+    [11,11,28,10,13,14,14,9,7,7,8,7,10,9,10,6,10,9,60]);
+
+  const ts = [...S.testes].sort((a,b)=>(a.data<b.data?-1:1));
+  add("Testes", [["Data","Metodo","Valor medido (W)","FTP (W)","Peso (kg)","W/kg","Variacao %","Notas"],
+    ...ts.map((t,i)=>{ const ant = i?+ts[i-1].ftp:0;
+      return [t.data,t.metodo||"",t.bruto||"",t.ftp||"",t.peso||"",t.peso?r2(t.ftp/t.peso):"",ant?r1((t.ftp-ant)/ant*100):"",t.notas||""]; })],
+    [11,14,17,9,10,8,11,50]);
+
+  const carga = serieCarga(S.sessoes);
+  add("Carga", [["Data","TSS do dia","CTL (forma)","ATL (fadiga)","TSB (frescura)"],
+    ...carga.map(c=>[c.data,c.tss,c.ctl,c.atl,c.tsb])], [11,11,13,13,15]);
+
+  add("Recordes", [["Duracao","Segundos","Potencia (W)","W/kg","Data"],
+    ...DURACOES.map(d => { const r = S.recordes[d.k]||{};
+      return [d.r,d.s,r.w||"",r.w&&peso?r2(r.w/peso):"",r.data||""]; })], [10,10,13,8,11]);
+
+  const sem = {};
+  ss.forEach(s => { const k = segunda(s.data); (sem[k] = sem[k] || {n:0,min:0,km:0,tss:0}); sem[k].n++; sem[k].min += +s.min||0; sem[k].km += +s.km||0; sem[k].tss += +s.tss||0; });
+  add("Resumo", [["Semana de","Sessoes","Horas","km","TSS","TSS por hora"],
+    ...Object.keys(sem).sort().map(k=>{ const v = sem[k];
+      return [k,v.n,r2(v.min/60),r1(v.km),v.tss,v.min?r1(v.tss/(v.min/60)):""]; })], [12,9,8,8,8,13]);
+
+  return wb;
+}
+async function exportarExcel(){
+  /* a biblioteca do Excel vem de fora; sem internet a app continua a funcionar,
+     só esta exportação é que não. A cópia de segurança não depende de nada. */
+  if(typeof XLSX === "undefined"){ toast("A exportação para Excel precisa de internet. A cópia de segurança não."); return; }
+  const btn = el("btnExportar"); if(btn){ btn.disabled = true; btn.textContent = "A preparar…"; }
+  try{
+    const out = XLSX.write(construirLivro(), {bookType:"xlsx", type:"array"});
+    descarregar("Treino_Potencia.xlsx", new Blob([out]));
+    toast("Excel descarregado");
+  }catch(e){ toast("Não consegui gerar o Excel"); }
+  finally{ if(btn){ btn.disabled = false; btn.textContent = "Exportar Treino_Potencia.xlsx"; } }
+}
+/* cópia de segurança completa, para passar de aparelho ou recuperar */
+function exportarCopia(){
+  const nome = `Treino_copia_${hojeISO()}.json`;
+  descarregar(nome, new Blob([JSON.stringify(instantaneo(), null, 1)], {type:"application/json"}));
+  toast("Cópia guardada — mete-a na OneDrive");
+}
+async function importarCopia(ficheiro){
+  try{
+    const d = JSON.parse(await ficheiro.text());
+    if(!d || typeof d !== "object" || !("perfil" in d)) throw new Error("formato");
+    const n = (d.sessoes||[]).length;
+    if(!confirm(`Substituir tudo o que está neste aparelho por esta cópia? São ${n} treinos, de ${d.gravadoEm?d.gravadoEm.slice(0,10):"data desconhecida"}.`)) return;
+    aplicar(d); guardarLocal(); render();
+    toast(`Reposto: ${n} treinos`);
+  }catch(e){ toast("Esse ficheiro não é uma cópia válida"); }
+}
+const dataExcel = v => {
+  if(v == null || v === "") return "";
+  if(typeof v === "number"){ const d = XLSX.SSF.parse_date_code(v); return d ? `${d.y}-${String(d.m).padStart(2,"0")}-${String(d.d).padStart(2,"0")}` : ""; }
+  const m = String(v).match(/(\d{4})-(\d{2})-(\d{2})/); return m ? m[0] : "";
+};
+async function importarExcel(ficheiro){
+  if(typeof XLSX === "undefined"){ toast("Ler um Excel precisa de internet"); return; }
+  try{
+    const wb = XLSX.read(await ficheiro.arrayBuffer(), {type:"array"});
+    const folha = n => wb.Sheets[n] ? XLSX.utils.sheet_to_json(wb.Sheets[n], {defval:""}) : [];
+    let nS = 0, nT = 0, nR = 0;
+    const porChave = {}; S.sessoes.forEach(s => porChave[s.data+"|"+(s.titulo||"")] = s.id);
+    for(const r of folha("Sessoes")){
+      const data = dataExcel(r["Data"]); if(!data) continue;
+      const corpo = {data, titulo:String(r["Titulo"]||""), local:String(r["Local"]||"Estrada"),
+        min:+r["Duracao (min)"]||0, km:+r["Distancia (km)"]||null, pm:+r["Pot. media (W)"]||null, np:+r["NP (W)"]||null,
+        fcm:+r["FC media"]||null, fcx:+r["FC max"]||null, cad:+r["Cadencia"]||null, rpe:+r["RPE"]||null,
+        notas:String(r["Notas"]||""), importado:true};
+      const m = metricas(corpo, FTP());
+      Object.assign(corpo, {if:m.if??null, tss:m.tss??(+r["TSS"]||null), kj:m.kj??null, vi:m.vi??null, estimado:!!m.estimado});
+      const id = porChave[data+"|"+corpo.titulo] || ("s"+data.replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,7));
+      if(await gravar("sessoes/"+id, corpo)) nS++;
+    }
+    for(const r of folha("Testes")){
+      const data = dataExcel(r["Data"]); const ftp = +r["FTP (W)"]; if(!data || !ftp) continue;
+      if(await gravar("testes/t"+data.replace(/-/g,""), {data, metodo:String(r["Metodo"]||"importado"),
+        bruto:+r["Valor medido (W)"]||ftp, ftp, peso:+r["Peso (kg)"]||null, notas:String(r["Notas"]||"")})) nT++;
+    }
+    for(const r of folha("Recordes")){
+      const w = +r["Potencia (W)"], s = +r["Segundos"]; if(!w || !s) continue;
+      const d = DURACOES.find(x => x.s === s); if(!d) continue;
+      if(await gravar("recordes/"+d.k, {w, s, data:dataExcel(r["Data"])||""})) nR++;
+    }
+    const perfil = folha("Perfil");
+    if(perfil.length){
+      const mapa = {}; perfil.forEach(r => mapa[String(r["Campo"]||"").trim()] = r["Valor"]);
+      const novo = {...S.perfil};
+      if(+mapa["Peso (kg)"]) novo.peso = +mapa["Peso (kg)"];
+      if(+mapa["FTP (W)"]) novo.ftp = +mapa["FTP (W)"];
+      if(+mapa["FC maxima"]) novo.fcmax = +mapa["FC maxima"];
+      if(+mapa["FC repouso"]) novo.fcrep = +mapa["FC repouso"];
+      if(mapa["Nome"]) novo.nome = String(mapa["Nome"]);
+      if(dataExcel(mapa["Inicio do plano"])) novo.inicioPlano = dataExcel(mapa["Inicio do plano"]);
+      await gravar("perfil/main", novo);
+    }
+    toast(`Importado: ${nS} treinos, ${nT} testes, ${nR} recordes`);
+  }catch(e){ toast("Não consegui ler esse ficheiro Excel"); }
+}
+
+/* ============================================================
+   6. Render + eventos
+   ============================================================ */
+/* As seis coleções chegam em avisos separados; sem isto o ecrã era reconstruído
+   seis vezes seguidas e o que estavas a tocar fugia debaixo do dedo. */
+function pedirRender(){
+  clearTimeout(pedirRender._t);
+  pedirRender._t = setTimeout(render, 70);
+}
+function render(){
+  const v = el("view");
+  /* guardar o sítio onde estavas e as semanas que tinhas abertas */
+  const y = window.scrollY, mesmaTab = v.dataset.tab === S.tab;
+  const abertas = mesmaTab ? [...v.querySelectorAll("details.sem[open]")].map(d => d.dataset.sem) : [];
+  v.dataset.tab = S.tab;
+  if(!S.pronto){ v.innerHTML = `<div class="empty"><span class="big">A carregar os teus dados…</span></div>`; return; }
+  if(S.tab === "registar"){
+    delete v.dataset.dados;
+    if(!v.dataset.form){ v.innerHTML = formRegistar(); v.dataset.form = "1"; montarFormularios(); }
+    painelSessoes(); prevSessao(); prevTeste(); sincronizarPlanoSelect();
+  } else if(S.tab === "dados"){
+    delete v.dataset.form;
+    /* a casca só se desenha uma vez: assim nada do que estás a escrever se perde quando chegam dados novos */
+    if(v.dataset.dados !== "1"){ v.innerHTML = vistaDados(); v.dataset.dados = "1"; S.subFeito = null; }
+    v.querySelectorAll("[data-sub]").forEach(b => b.setAttribute("aria-current", String(b.dataset.sub === S.sub)));
+    if(S.subFeito !== S.sub){ renderSub(); S.subFeito = S.sub; }
+  } else {
+    delete v.dataset.form; delete v.dataset.dados;
+    v.innerHTML = S.tab === "hoje" ? vistaHoje() : S.tab === "plano" ? vistaPlano() : vistaEvolucao();
+    ligarTooltips(v);
+    abertas.forEach(k => { const d = v.querySelector(`details.sem[data-sem="${k}"]`); if(d) d.open = true; });
+  }
+  /* a navegação só se redesenha quando muda de aba */
+  const nav = TABS.map(t => `<button data-tab="${t.k}" ${S.tab===t.k?'aria-current="page"':""}>
+    <span class="ic">${t.ic}</span>${t.n}</button>`).join("");
+  const barra = el("tabbar");
+  if(barra.dataset.sig !== S.tab){ barra.innerHTML = nav; el("sidenav").innerHTML = nav; barra.dataset.sig = S.tab; }
+  /* o número que interessa, visível em todas as abas */
+  const ag = el("agora");
+  if(ag) ag.textContent = S.pronto ? `S${semanaAtual()}${FTP()?` · ${FTP()} W`:""}` : "";
+  if(mesmaTab && y) window.scrollTo({top:y});
+}
+function renderSub(){
+  const box = el("subview"); if(!box) return;
+  box.innerHTML = S.sub === "perfil" ? subPerfil() : S.sub === "meus" ? subMeus()
+    : S.sub === "zonas" ? subZonas() : S.sub === "excel" ? subExcel() : subGuia();
+  const fm = el("fMeu");
+  if(fm){
+    const blocos = el("mBlocos");
+    el("mAdd").addEventListener("click", () => { blocos.insertAdjacentHTML("beforeend", linhaBloco(null, 1)); prevMeu(); });
+    fm.addEventListener("input", prevMeu);
+    fm.addEventListener("click", ev => {
+      const x = ev.target.closest("[data-tirar-bloco]"); if(!x) return;
+      if(blocos.children.length > 1) x.closest("[data-bloco]").remove(); else toast("O treino precisa de pelo menos um bloco");
+      prevMeu();
+    });
+    const cancelar = el("mCancel");
+    if(cancelar) cancelar.addEventListener("click", () => { EDIT = null; renderSub(); });
+    fm.addEventListener("submit", async ev => {
+      ev.preventDefault();
+      const t = el("mT").value.trim(), min = +el("mMin").value;
+      if(!t || !min){ toast("Falta o nome ou a duração"); return; }
+      const alvos = lerBlocos();
+      if(!alvos.length){ toast("Dá um nome a pelo menos um bloco"); return; }
+      const z = el("mZ").value, s = +el("mS").value || 0, manual = +el("mTss").value;
+      const corpo = {t, loc:el("mLoc").value, min, z, s, d:el("mD").value,
+        alvos, desc:el("mDesc").value.trim(), tss:manual || tssEstimado(min, alvos, z), tssManual:!!manual};
+      const cid = (EDIT && EDIT.cid) || "m"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+      if(await gravar("meus/"+cid, corpo)){
+        toast(EDIT ? "Treino atualizado" : (s ? `Criado na semana ${s}` : "Criado na tua biblioteca"));
+        EDIT = null; renderSub();
+      }
+    });
+    prevMeu();
+  }
+  const f = el("fPerfil");
+  if(f) f.addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const p = {...S.perfil,
+      nome:el("pNome").value.trim(), nasc:el("pNasc").value, peso:+el("pPeso").value||null, altura:+el("pAltura").value||null,
+      ftp:+el("pFtp").value||null, ftpData:el("pFtpData").value, fcmax:+el("pFcmax").value||null, fcrep:+el("pFcrep").value||null,
+      pedaleira:+el("pPed").value||170, inicioPlano:el("pInicio").value ? segunda(el("pInicio").value) : "", objetivo:el("pObj").value.trim()};
+    if(await gravar("perfil/main", p)) toast("Perfil guardado");
+  });
+  /* re-sincronizar o plano com a semana real, sem tocar no histórico */
+  const bs = el("btnSemana");
+  if(bs) bs.addEventListener("click", async () => {
+    const n = Math.max(1, Math.min(999, +el("pSemana").value || 1));
+    const ini = somaDias(segunda(hojeISO()), -(n-1)*7);
+    if(await gravar("perfil/main", {...S.perfil, inicioPlano:ini})){
+      S.pDe = S.pAte = null;
+      toast(`Estás na semana ${n} · ${tituloCiclo(cicloNum(n))}`);
+    }
+  });
+  const bc = el("btnCopia");
+  if(bc) bc.addEventListener("click", () => { exportarCopia(); gravar("perfil/main", {...S.perfil, copiaEm:hojeISO()}); });
+  const ic = el("inpCopia");
+  if(ic) ic.addEventListener("change", e => { const f = e.target.files[0]; if(f) importarCopia(f); e.target.value = ""; });
+  const be = el("btnExportar"); if(be) be.addEventListener("click", exportarExcel);
+  const bi = el("inpImportar");
+  if(bi) bi.addEventListener("change", e => { const f2 = e.target.files[0]; if(f2) importarExcel(f2); e.target.value = ""; });
+}
+/* Só as semanas à volta da atual: a lista inteira seria infinita num plano contínuo,
+   e é sempre um treino destas semanas que estás a registar. */
+function sincronizarPlanoSelect(){
+  const sel = el("rPlano"); if(!sel) return;
+  const sem = semanaAtual(), janela = [];
+  for(let s = Math.max(1, sem-2); s <= sem+2; s++) janela.push(...daSemana(s));
+  const biblio = S.meus.filter(p => !p.s);
+  const assinatura = sem + ":" + janela.length + ":" + biblio.length;
+  if(sel.dataset.sig === assinatura) return;
+  const escolhido = sel.value;
+  sel.innerHTML = `<option value="">— treino avulso —</option>` +
+    janela.map(p => `<option value="${planoId(p)}">S${p.sAbs}${p.sAbs===sem?" (esta semana)":""} · ${esc(p.t)}${p.custom?" (meu)":""}</option>`).join("") +
+    biblio.map(p => `<option value="${planoId(p)}">Biblioteca · ${esc(p.t)}</option>`).join("");
+  sel.value = escolhido; sel.dataset.sig = assinatura;
+}
+function montarFormularios(){
+  const hoje = hojeISO();
+  el("rData").value = hoje; el("tData").value = hoje; el("cData").value = hoje;
+  ["rMin","rPm","rNp"].forEach(id => el(id).addEventListener("input", prevSessao));
+  ["tBruto","tMetodo","tPeso"].forEach(id => el(id).addEventListener("input", prevTeste));
+  el("rPlano").addEventListener("change", e => {
+    const p = acharPlano(e.target.value); if(!p) return;
+    el("rTitulo").value = p.t; el("rMin").value = p.min;
+    el("rLocal").value = ["Estrada","Rolo","Montanha"].includes(p.loc) ? p.loc : "Rolo"; prevSessao();
+  });
+  el("fSessao").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const base = {data:el("rData").value, titulo:el("rTitulo").value.trim(), local:el("rLocal").value,
+      min:+el("rMin").value||0, km:+el("rKm").value||null, pm:+el("rPm").value||null, np:+el("rNp").value||null,
+      fcm:+el("rFcm").value||null, fcx:+el("rFcx").value||null, cad:+el("rCad").value||null, rpe:+el("rRpe").value||null,
+      notas:el("rNotas").value.trim(), plano:el("rPlano").value||"", peso:PESO()||null};
+    if(!base.data || !base.min){ toast("Falta a data ou a duração"); return; }
+    const m = metricas(base, FTP());
+    const s = {...base, if:m.if??null, tss:m.tss??null, kj:m.kj??null, vi:m.vi??null, estimado:!!m.estimado};
+    const id = "s"+base.data.replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,7);
+    if(await gravar("sessoes/"+id, s)){
+      if(s.plano) await gravar("feitas/"+s.plano, {data:base.data, sessao:id});
+      toast(s.tss ? `Treino guardado · ${s.tss} TSS` : "Treino guardado");
+      el("fSessao").reset(); el("rData").value = hojeISO(); prevSessao();
+    }
+  });
+  el("fTeste").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const data = el("tData").value, met = el("tMetodo").value, bruto = +el("tBruto").value;
+    if(!data || !bruto){ toast("Falta a data ou o valor medido"); return; }
+    const ftp = Math.round(bruto*FATOR[met]), peso = +el("tPeso").value || PESO() || null;
+    const ok = await gravar("testes/t"+data.replace(/-/g,""), {data, metodo:met, bruto, ftp, peso, notas:el("tNotas").value.trim()});
+    if(ok){
+      await gravar("perfil/main", {...S.perfil, ftp, ftpData:data, ...(peso?{peso}:{})});
+      toast(`FTP atualizado para ${ftp} W`);
+      el("fTeste").reset(); el("tData").value = hojeISO(); prevTeste();
+    }
+  });
+  el("fRec").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const k = el("cDur").value, w = +el("cW").value, d = DURACOES.find(x => x.k === k);
+    if(!w || !d){ toast("Falta a potência"); return; }
+    const atual = S.recordes[k];
+    if(atual && +atual.w >= w && !atual.exemplo){ toast(`Já tens ${atual.w} W nessa duração`); return; }
+    if(await gravar("recordes/"+k, {w, s:d.s, data:el("cData").value||hojeISO()})){
+      toast(`Recorde de ${d.r}: ${w} W`); el("cW").value = "";
+    }
+  });
+}
+
+document.addEventListener("click", async e => {
+  const t = e.target.closest("[data-tab],[data-sub],[data-ir],[data-ir-sub],[data-feita],[data-abrir],[data-registar],[data-apagar-sessao],[data-limpar-ex],[data-editar],[data-apagar-meu],[data-plano-antes],[data-plano-depois],[data-onde],[data-saltar],[data-fit]");
+  if(!t) return;
+  if(t.hasAttribute("data-plano-antes")){ S.pDe = Math.max(1, S.pDe-8); render(); return; }
+  if(t.hasAttribute("data-plano-depois")){ S.pAte = S.pAte+8; render(); return; }
+  if(t.dataset.tab){ S.tab = t.dataset.tab; render(); window.scrollTo({top:0}); return; }
+  if(t.dataset.ir){ S.tab = t.dataset.ir; if(t.dataset.ir === "dados") S.sub = "perfil"; render(); window.scrollTo({top:0}); return; }
+  if(t.dataset.irSub){ S.tab = "dados"; S.sub = t.dataset.irSub; render(); window.scrollTo({top:0}); return; }
+  if(t.dataset.sub){ S.sub = t.dataset.sub; render(); return; }
+  if(t.dataset.editar){
+    EDIT = S.meus.find(m => m.cid === t.dataset.editar) || null;
+    S.tab = "dados"; S.sub = "meus"; render(); renderSub(); window.scrollTo({top:0});
+    return;
+  }
+  if(t.dataset.apagarMeu){
+    if(t.dataset.c !== "1"){ t.dataset.c = "1"; t.textContent = "Confirmar"; return; }
+    const cid = t.dataset.apagarMeu;
+    await apagar("meus/"+cid); await apagar("feitas/"+cid);
+    if(EDIT && EDIT.cid === cid) EDIT = null;
+    toast("Treino apagado"); if(S.tab === "dados") renderSub();
+    return;
+  }
+  if(t.dataset.abrir){
+    const art = t.closest("article"), p = acharPlano(t.dataset.abrir);
+    if(art && p){ art.querySelector(".bd").insertAdjacentHTML("afterbegin",
+      `<div class="alvos">${alvosHTML(p)}</div>${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}`); t.remove(); }
+    return;
+  }
+  if(t.dataset.fit){
+    const meu = S.meus.find(m => m.cid === t.dataset.fit);
+    if(meu) await descarregarFit(meu);
+    return;
+  }
+  if(t.dataset.onde){
+    await gravar("onde/"+t.dataset.onde, {loc:t.dataset.loc});
+    return;
+  }
+  if(t.dataset.saltar){
+    const id = t.dataset.saltar, r = S.feitas[id];
+    if(r && r.saltado) await apagar("feitas/"+id);
+    else { await gravar("feitas/"+id, {data:hojeISO(), saltado:true}); toast("Saltado — passa ao próximo"); }
+    return;
+  }
+  if(t.dataset.feita){
+    const id = t.dataset.feita, r = S.feitas[id];
+    if(r && !r.saltado) await apagar("feitas/"+id); else await gravar("feitas/"+id, {data:hojeISO()});
+    return;
+  }
+  if(t.dataset.registar){
+    const p = acharPlano(t.dataset.registar);
+    S.tab = "registar"; render(); window.scrollTo({top:0});
+    if(p){ el("rPlano").value = planoId(p); el("rTitulo").value = p.t; el("rMin").value = p.min;
+      el("rLocal").value = ["Estrada","Rolo","Montanha"].includes(p.loc) ? p.loc : "Rolo"; prevSessao(); }
+    return;
+  }
+  if(t.dataset.apagarSessao){
+    if(t.dataset.c !== "1"){ t.dataset.c = "1"; t.textContent = "Confirmar"; return; }
+    await apagar("sessoes/"+t.dataset.apagarSessao); toast("Treino apagado"); return;
+  }
+  if(t.hasAttribute("data-limpar-ex")){
+    for(const s of S.sessoes) if(s.exemplo) await apagar("sessoes/"+s.id);
+    for(const x of S.testes) if(x.exemplo) await apagar("testes/"+x.id);
+    for(const k of Object.keys(S.recordes)) if(S.recordes[k].exemplo) await apagar("recordes/"+k);
+    for(const k of Object.keys(S.feitas)) if(S.feitas[k].exemplo) await apagar("feitas/"+k);
+    toast("Exemplos apagados — a app é tua");
+  }
+});
+function tema(){
+  const r = document.documentElement;
+  const atual = r.getAttribute("data-theme");
+  const escuro = atual ? atual === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.setAttribute("data-theme", escuro ? "light" : "dark");
+  try{ localStorage.setItem("dp-tema", escuro ? "light" : "dark"); }catch(e){}
+}
+el("themebtn").addEventListener("click", tema);
+el("themebtn2").addEventListener("click", tema);
+try{ const g = localStorage.getItem("dp-tema"); if(g) document.documentElement.setAttribute("data-theme", g); }catch(e){}
+try{ const h = location.hash.replace("#",""); if(TABS.some(t=>t.k===h)) S.tab = h; }catch(e){}
+
+carregarLocal();
+render();
+
+/* manifest gerado aqui, para o ficheiro continuar a ser um só */
+try{
+  const manifesto = {name:"Diário de Potência", short_name:"Potência", start_url:".",
+    display:"standalone", background_color:"#0c131b", theme_color:"#0c131b", lang:"pt-PT",
+    icons:[{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAACRklEQVR42u3a0bFFQBRFQaP8E4VYiFgsIwoZkAE/w+B0h6DW2+9QN+Wp3xv4idYjQNAgaBA0CBpBg6BB0CBoEDSCBkGDoEHQIGgEDYIGQYOgQdAIGgQNggZBg6ARNBWNy+YhCFrMggZBc/c6r/PgYQgaQeN2FjRiFjQI2joj6I/zhUPQ1lnQiFnQIGiss6CDxuyFUNAgaKeGoEHQWGdBB43ZC6GgQdBODUGDoLHOghYzgm78BlrQWGdBg6CtM4IWM4L2QihorLOgEbOgQdDWGUEjaOqssy8cgnZqIGgEjXUWNAg66Dp7IRS0UwNBI2iss6BB0EHX2QuhoJ0aCBpBY50FLWYEDYL+/jr7wiFoOJXy1O8eQ4zbOcJ/BAstZkGDoK2zdRY0Yha0dXZy4NQQNGIWtHVG0FhnQVtnQYvZOgsaMQvaOiNoMVtnQTs1BG2dETTWWdDWWcxldRbNH5CFxjoL2sunmAUNgnZqCBoxCxpfNwSNdRa0mBE0guZt97N1FjSCxu0saMQsaPczgrbOCFrMggZBU+p+ts6CdmogaASNdRa0+1nMggZBOzUQtJgFjd9vCBrrLGgQtHUWtEfw3P0sZkGDoJ0agkbMgnY/+/4saOuMoMWMoBE0pe5n6yxopwaCBkFbZ0FzfT+LWdAgaKcGghazoPH7DUFbZwQNgrbOCLrU/SxmQYOgnRoIWsyCxvdnQVtnBC1mBA2CRtAgaBA0CBoEjaBB0CBoEDQIGkGDoEHQIGgQNIIGQYOgQdAgaAQNgoYnHRuNuvrKn0zKAAAAAElFTkSuQmCC", sizes:"180x180", type:"image/png", purpose:"any"}]};
+  const l = document.createElement("link");
+  l.rel = "manifest";
+  l.href = URL.createObjectURL(new Blob([JSON.stringify(manifesto)], {type:"application/manifest+json"}));
+  document.head.appendChild(l);
+}catch(e){}
+</script>
+</body>
+</html>
